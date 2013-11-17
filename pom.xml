@@ -16,22 +16,22 @@
     <properties>
         <lapps.version>1.0.1</lapps.version>
     </properties>
+    <!--
     <dependencies>
-        <!-- Mandatory dependencies for using Spock -->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
+            <version></version>
             <scope>test</scope>
         </dependency>
-        <!-- Optional dependencies for using Spock -->
-        <dependency> <!-- enables mocking of classes (in addition to interfaces) -->
+        <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>2.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    -->
     <repositories>
         <!-- Only required if a snapshot version of Spock is used -->
         <repository>
