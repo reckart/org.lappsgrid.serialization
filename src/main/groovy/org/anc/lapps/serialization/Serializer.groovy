@@ -7,6 +7,10 @@ import groovy.json.JsonSlurper
  * The Serializer class can be used to serialize {@link Container} objects into
  * their JSON representation, and the JSON representation back into Container
  * objects.
+ * <p>
+ * <b>Note:</b> This class is mostly redundant since the Container class contains toJson()
+ * and toPrettyJson() methods and a constructor that accepts JSON. It will likely be
+ * deprecated and/or removed before 1.0.0
  *
  * @author Keith Suderman
  */
@@ -42,7 +46,6 @@ public class Serializer {
      */
     static public Container toContainer(String json) {
         def map = new JsonSlurper().parseText(json)
-        println map
         return new Container(map)
     }
 }
