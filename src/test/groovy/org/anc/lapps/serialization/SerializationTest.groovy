@@ -21,6 +21,7 @@ class SerializationTest {
         println "SerializationTest.testRoundTrip"
         Container c1 = getContainer()
         String json = Serializer.toJSon(c1)
+        println json
         Container c2 = Serializer.toContainer(json)
         String json2 = Serializer.toJSon(c2)
         assertTrue('Text is not the same.', c1.text == c2.text)
