@@ -17,14 +17,17 @@ class SerializationTest {
 
     @Test
     public void testRoundTrip() {
+        println "<-------- testRoundTrip --------------"
         println "SerializationTest.testRoundTrip"
         Container c1 = getContainer()
         String json = Serializer.toJSon(c1)
+        println json
         Container c2 = Serializer.toContainer(json)
         String json2 = Serializer.toJSon(c2)
         assertTrue('Text is not the same.', c1.text == c2.text)
         assertTrue('Number of features is different.', c1.steps.size() == c2.steps.size())
         assertTrue('Serializations do not match', json == json2)
+        println "------------------------------------->"
     }
 
     Container getContainer() {

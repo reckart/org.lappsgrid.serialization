@@ -16,6 +16,8 @@
     <properties>
         <lapps.version>1.0.1</lapps.version>
     </properties>
+
+
     <build>
         <plugins>
             <plugin>
@@ -46,6 +48,11 @@
             <artifactId>common</artifactId>
             <version>3.2.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsonld-java</groupId>
+            <artifactId>jsonld-java</artifactId>
+            <version>0.3</version>
         </dependency>
     </dependencies>
 </project>

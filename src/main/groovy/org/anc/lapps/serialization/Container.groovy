@@ -35,6 +35,14 @@ class Container {
         initFromMap(map)
     }
 
+    String toJsonLd(){
+        return new JsonLd(this).toString()
+    }
+
+    String toPrettyJsonLd() {
+        return new JsonLd(this).toPrettyString()
+    }
+
     String toJson() {
         return new JsonBuilder(this).toString()
     }
