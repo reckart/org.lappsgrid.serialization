@@ -53,7 +53,7 @@ class JsonLd {
         level0_jsonld_keywords.eachWithIndex { String entry, int i ->
             configKeywords.add(entry.replace("@", "jsonld_"))
         }
-        println configKeywords
+//        println configKeywords
     }
 
     def content
@@ -89,8 +89,6 @@ class JsonLd {
             jsonlds = list2jsonld(root, content)
         } else {
             jsonlds = obj2jsonld(root, content)
-            println "################"
-            println jsonlds[1]
         }
         jsonldobj = null
         if (jsonlds != null && jsonlds[0] != null) {
@@ -226,8 +224,6 @@ class JsonLd {
 
     def obj2jsonld(root, obj){
         String json = new JsonBuilder(obj).toString()
-//        println "-------json------"
-//        println json
         def jsonld = JSONUtils.fromString(json)
         def jsonldcontextobj = [:]
 
