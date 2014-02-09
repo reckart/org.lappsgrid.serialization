@@ -47,6 +47,7 @@ class ContainerTest {
         FileUtils.write(TEST_FILE, original.toPrettyJson());
 
         final String json = FileUtils.read(TEST_FILE);
+        println json
         Container copy = new Container(json);
         //println container.text
         assertTrue(original.text == copy.text)
@@ -60,6 +61,7 @@ class ContainerTest {
         FileUtils.write(TEST_FILE, original.toJson());
 
         final String json = FileUtils.read(TEST_FILE)
+        println json
         Container copy = new Container(json)
         assertTrue(original.text == copy.text)
     }

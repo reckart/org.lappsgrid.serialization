@@ -1,0 +1,11 @@
+{
+  "@context" : {
+    "@vocab" : "http://lapps.org/ns/vocab#"
+    "foaf:homepage" : {
+      "@type" : "@id"
+    },
+    "doap:homepage" : {
+      "@type" : "@id"
+    }
+  },
+}
