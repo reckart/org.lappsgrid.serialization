@@ -52,19 +52,19 @@ class_annotation {
                 "id": "http://lapps.org/annotation/id",
                 "label" : "http://lapps.org/annotation/label",
                 "start": {
-                    "@id":"http://lapps.anc.org/start",
+                    "@id":"http://lapps.org/start",
                     "@type": "xsd:integer"
                 },
                 "end": {
-                    "@id":"http://lapps.anc.org/end",
+                    "@id":"http://lapps.org/end",
                     "@type": "xsd:integer"
                 },
                 "features" :{
-                    "@id":"http://lapps.anc.org/features",
+                    "@id":"http://lapps.org/features",
                     "@container":"@index"
                 },
                 "metadata" : {
-                    "@id":"http://lapps.anc.org/metadata",
+                    "@id":"http://lapps.org/metadata",
                     "@container":"@index"
                 }
               }
@@ -74,7 +74,6 @@ class_annotation {
             "@id": "http://lapps.org/annotation"
           }'''
 
-}
 }
 ```
 
