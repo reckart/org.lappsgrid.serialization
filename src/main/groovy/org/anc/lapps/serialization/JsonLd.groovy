@@ -74,7 +74,7 @@ class JsonLd {
         }
 
         if (is_null(clsname)) {
-//            jsonld =
+            jsonlds = null2jsonld(root, content)
         } else if (is_str(clsname)) {
             jsonlds = str2jsonld(root, content)
         } else if (is_int(clsname)) {
@@ -89,14 +89,27 @@ class JsonLd {
             jsonlds = list2jsonld(root, content)
         } else {
             jsonlds = obj2jsonld(root, content)
+            println "################"
+            println jsonlds[1]
         }
-
-        if (jsonlds != null) {
+        jsonldobj = null
+        if (jsonlds != null && jsonlds[0] != null) {
             jsonldobj = jsonlds[0].clone()
-            def jsonldcontextobj = jsonconfigobj.get("@context", [:])
-            jsonldcontextobj.putAll(jsonlds[1])
+//            def jsonldcontextobj = jsonconfigobj.get("@context", [:])
+//            jsonldcontextobj.putAll(jsonlds[1])
             jsonldobj.putAll(jsonconfigobj)
         }
+    }
+
+    public Boolean isValid(){
+        return checkValid(jsonldobj)
+    }
+
+    public static Boolean checkValid(jsonldobj){
+        Map context = new HashMap();
+        JsonLdOptions options = new JsonLdOptions();
+        Object compact = JsonLdProcessor.compact(jsonldobj, context, options);
+        return true
     }
 
     public String toString(){
@@ -113,17 +126,14 @@ class JsonLd {
         return obj.class.toString().split("\\.")[-1].toLowerCase()
     }
 
+    def null2jsonld(root, str){
+        return [null, [:]] as Object[]
+    }
+
     def bool2jsonld(root, str) {
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@type":"xsd:boolean"]
-        configKeywords.eachWithIndex { String keywordEntry, int j ->
-            def configPath = root + "." + keywordEntry
-            def jsonconfig = getJsonObj(configPath)
-            if (jsonconfig != null)
-            // update jsonobj
-                jsonldcontextobj.putAll(jsonconfig)
-        }
         return [jsonobj, jsonldcontextobj] as Object[]
     }
 
@@ -139,13 +149,6 @@ class JsonLd {
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@type":"xsd:integer"]
-        configKeywords.eachWithIndex { String keywordEntry, int j ->
-            def configPath = root + "." + keywordEntry
-            def jsonconfig = getJsonObj(configPath)
-            if (jsonconfig != null)
-            // update jsonobj
-                jsonldcontextobj.putAll(jsonconfig)
-        }
         return [jsonobj, jsonldcontextobj] as Object[]
     }
 
@@ -153,13 +156,6 @@ class JsonLd {
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@type":"xsd:double"]
-        configKeywords.eachWithIndex { String keywordEntry, int j ->
-            def configPath = root + "." + keywordEntry
-            def jsonconfig = getJsonObj(configPath)
-            if (jsonconfig != null)
-            // update jsonobj
-                jsonldcontextobj.putAll(jsonconfig)
-        }
         return [jsonobj, jsonldcontextobj] as Object[]
     }
 
@@ -167,13 +163,6 @@ class JsonLd {
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = [:]
-        configKeywords.eachWithIndex { String keywordEntry, int j ->
-            def configPath = root + "." + keywordEntry
-            def jsonconfig = getJsonObj(configPath)
-            if (jsonconfig != null)
-            // update jsonobj
-                jsonldcontextobj.putAll(jsonconfig)
-        }
         return [jsonobj, jsonldcontextobj] as Object[]
     }
 
@@ -181,13 +170,6 @@ class JsonLd {
         def json = new JsonBuilder(list).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@container":"@list"]
-        configKeywords.eachWithIndex { String keywordEntry, int j ->
-            def configPath = root + "." + keywordEntry
-            def jsonconfig = getJsonObj(configPath)
-            if (jsonconfig != null)
-            // update jsonobj
-                jsonldcontextobj.putAll(jsonconfig)
-        }
         return [jsonobj, jsonldcontextobj] as Object[]
     }
 
@@ -199,19 +181,20 @@ class JsonLd {
             def propertyroot = root + "." + entry.key
             def valclsname = getClassLastName(entry.value)
             Object[] jsonlds = null
-            if (is_null(valclsname)) {
+            if (is_null(entry.value)) {
                 // TODO: what to do with null in map?
-            } else if (is_bool(valclsname)) {
+                jsonlds = null2jsonld(propertyroot, entry.value)
+            } else if (is_bool(entry.value)) {
                 jsonlds = bool2jsonld(propertyroot, entry.value)
-            } else if (is_str(valclsname)) {
+            } else if (is_str(entry.value)) {
                 jsonlds = str2jsonld(propertyroot, entry.value)
-            } else if (is_int(valclsname)) {
+            } else if (is_int(entry.value)) {
                 jsonlds = int2jsonld(propertyroot, entry.value)
-            } else if (is_float(valclsname)) {
+            } else if (is_float(entry.value)) {
                 jsonlds = float2jsonld(propertyroot, entry.value)
-            } else if (is_map(valclsname)) {
+            } else if (is_map(entry.value)) {
                 jsonlds = map2jsonld(propertyroot, entry.value)
-            } else if (is_list(valclsname)) {
+            } else if (is_list(entry.value)) {
                 jsonlds = list2jsonld(propertyroot, entry.value)
             } else {
                 jsonlds = obj2jsonld(propertyroot, entry.value)
@@ -220,13 +203,6 @@ class JsonLd {
                 jsonld.put(entry.key, jsonlds[0])
                 jsonldcontextobj.put(entry.key, jsonlds[1])
             }
-        }
-        configKeywords.eachWithIndex { String keywordEntry, int j ->
-            def configPath = root + "." + keywordEntry
-            def jsonconfig = getJsonObj(configPath)
-            if (jsonconfig != null)
-            // update jsonobj
-                jsonldcontextobj.putAll(jsonconfig)
         }
         return [jsonld, jsonldcontextobj] as Object[]
     }
@@ -260,19 +236,20 @@ class JsonLd {
                 def propertyroot = root + "." + entry.key
                 def valclsname = getClassLastName(entry.value)
                 Object[] jsonlds = null
-                if (is_null(valclsname)) {
+                if (is_null(entry.value)) {
                     // TODO: what to do with null in map?
-                } else if (is_bool(valclsname)) {
+                    jsonlds = null2jsonld(propertyroot, entry.value)
+                } else if (is_bool(entry.value)) {
                     jsonlds = bool2jsonld(propertyroot, entry.value)
-                } else if (is_str(valclsname)) {
+                } else if (is_str(entry.value)) {
                     jsonlds = str2jsonld(propertyroot, entry.value)
-                } else if (is_int(valclsname)) {
+                } else if (is_int(entry.value)) {
                     jsonlds = int2jsonld(propertyroot, entry.value)
-                } else if (is_float(valclsname)) {
+                } else if (is_float(entry.value)) {
                     jsonlds = float2jsonld(propertyroot, entry.value)
-                } else if (is_map(valclsname)) {
+                } else if (is_map(entry.value)) {
                     jsonlds = map2jsonld(propertyroot, entry.value)
-                } else if (is_list(valclsname)) {
+                } else if (is_list(entry.value)) {
                     jsonlds = list2jsonld(propertyroot, entry.value)
                 } else {
                     jsonlds = obj2jsonld(propertyroot, entry.value)
@@ -283,44 +260,36 @@ class JsonLd {
                 }
             }
         }
-
-        configKeywords.eachWithIndex { String keywordEntry, int j ->
-            def configPath = root + "." + keywordEntry
-            def jsonconfig = getJsonObj(configPath)
-            if (jsonconfig != null)
-            // update jsonobj
-                jsonldcontextobj.putAll(jsonconfig)
-        }
-
         return [jsonld, jsonldcontextobj] as Object[]
     }
 
-    def is_str(clsname){
-        return "string" in clsname
+    def is_str(obj){
+//        return "string" in clsname
+        return obj instanceof String
     }
 
-    def is_map(clsname) {
-        return "map" in clsname
+    def is_map(obj) {
+        return obj instanceof Map
     }
 
-    def is_list(clsname) {
-        return "list" in clsname || "array" in clsname
+    def is_list(obj) {
+        return obj instanceof List || obj instanceof Object[]
     }
 
-    def is_null(clsname) {
-        return "null" in clsname
+    def is_null(obj) {
+        return obj == null
     }
 
-    def is_bool(clsname) {
-        return "bool" in clsname
+    def is_bool(obj) {
+        return obj  instanceof Boolean
     }
 
-    def is_int(clsname) {
-        return "integer" in clsname || "long" in clsname
+    def is_int(obj) {
+        return obj instanceof Integer ||obj instanceof Long
     }
 
-    def is_float(clsname) {
-        return "float" in clsname || "double" in clsname
+    def is_float(obj) {
+        return  obj instanceof Float ||obj instanceof Double
     }
 
     Object get(String keyEx) {

@@ -36,6 +36,49 @@ class Container {
 }
 ```
 
+4. **JsonLd** Used to convert class object into JSON-LD format. It works with the configuration file under
+directory src/main/resources/JsonLd.config.
+@Usage:
+    1. Jsonld keywords MUST start with "jsonld_"
+    2. Jsonld keywords content could be in closure " '''{ ... }'''  "
+    3. Jsonld keywords MUST be valid JSON, you could check syntax here: http://jsonlint.com/
+    4. Class configuration MUST start with "class_"
+
+```json
+class_annotation {
+    jsonld_context = '''{
+              "@context": {
+                "xsd": "http://www.w3.org/2001/XMLSchema#",
+                "id": "http://lapps.org/annotation/id",
+                "label" : "http://lapps.org/annotation/label",
+                "start": {
+                    "@id":"http://lapps.anc.org/start",
+                    "@type": "xsd:integer"
+                },
+                "end": {
+                    "@id":"http://lapps.anc.org/end",
+                    "@type": "xsd:integer"
+                },
+                "features" :{
+                    "@id":"http://lapps.anc.org/features",
+                    "@container":"@index"
+                },
+                "metadata" : {
+                    "@id":"http://lapps.anc.org/metadata",
+                    "@container":"@index"
+                }
+              }
+          }'''
+
+    jsonld_id = '''{
+            "@id": "http://lapps.org/annotation"
+          }'''
+
+}
+}
+```
+
+
 Serialization
 --
 
