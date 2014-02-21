@@ -35,20 +35,22 @@ class Container {
         initFromMap(map)
     }
 
-    String toJsonLd(){
+//    String toJsonLd(){
+//        return new JsonLd(this).toString()
+//    }
+//
+//    String toPrettyJsonLd() {
+//        return new JsonLd(this).toPrettyString()
+//    }
+
+    String toJson() {
+//        return new JsonBuilder(this).toString()
         return new JsonLd(this).toString()
     }
 
-    String toPrettyJsonLd() {
-        return new JsonLd(this).toPrettyString()
-    }
-
-    String toJson() {
-        return new JsonBuilder(this).toString()
-    }
-
     String toPrettyJson() {
-        return new JsonBuilder(this).toPrettyString()
+//        return new JsonBuilder(this).toPrettyString()
+        return new JsonLd(this).toPrettyString()
     }
 
     /** For debugging and testing purposes only */
