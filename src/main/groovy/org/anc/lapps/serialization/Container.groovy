@@ -53,11 +53,9 @@ class Container {
         return new JsonLd(this).toPrettyString()
     }
 
-    /** For debugging and testing purposes only */
+    /** Calls toPrettyJson() */
     String toString() {
-        println "Text: ${text}"
-        println "Annotations:"
-        annotations.each { println "\t${it}" }
+        return new JsonLd(this).toPrettyString()
     }
 
     private void initFromMap(Map map) {

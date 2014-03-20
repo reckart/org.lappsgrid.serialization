@@ -24,4 +24,8 @@ class ProcessingStep {
     void addAnnotation(Annotation annotation) {
         annotations << annotation
     }
+
+    void add(Annotation annotation) {
+        annotations << annotation
+    }
 }
