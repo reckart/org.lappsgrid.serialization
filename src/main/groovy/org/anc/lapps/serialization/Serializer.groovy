@@ -9,11 +9,14 @@ import groovy.json.JsonSlurper
  * objects.
  * <p>
  * <b>Note:</b> This class is mostly redundant since the Container class contains toJson()
- * and toPrettyJson() methods and a constructor that accepts JSON. It will likely be
- * deprecated and/or removed before 1.0.0
+ * and toPrettyJson() methods and a constructor that accepts JSON.
+ *
+ * @deprecated Use the Container.toJson() and Container.toPrettyJson() methods
+ * instead.
  *
  * @author Keith Suderman
  */
+@Deprecated
 public class Serializer {
 
     /**
