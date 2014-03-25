@@ -65,4 +65,28 @@ class ContainerTest {
         Container copy = new Container(json)
         assertTrue(original.text == copy.text)
     }
+
+    @Test
+    public void testContainerMetadata()
+    {
+        Container container = new Container()
+        container.text = 'Hello world'
+        container.metadata.text = 'text'
+        container.metadata.map = [foo:'foo', bar:'bar']
+        container.metadata.list = [0,1,2,3,4]
+
+        String json = container.toJson()
+        container = new Container(json)
+        assertTrue container.text == 'Hello world'
+        assertNotNull container.metadata
+        assertNotNull container.metadata.map
+        assertTrue container.metadata.map.foo == 'foo'
+        assertTrue container.metadata.map.bar == 'bar'
+        assertNotNull container.metadata.list
+        assertTrue container.metadata.list instanceof List
+        assertTrue container.metadata.list.size() == 5
+        (0..4).each { i ->
+            assertTrue container.metadata.list[i] == i
+        }
+    }
 }

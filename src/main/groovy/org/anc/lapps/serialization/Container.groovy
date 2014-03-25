@@ -35,21 +35,12 @@ class Container {
         initFromMap(map)
     }
 
-//    String toJsonLd(){
-//        return new JsonLd(this).toString()
-//    }
-//
-//    String toPrettyJsonLd() {
-//        return new JsonLd(this).toPrettyString()
-//    }
 
     String toJson() {
-//        return new JsonBuilder(this).toString()
         return new JsonLd(this).toString()
     }
 
     String toPrettyJson() {
-//        return new JsonBuilder(this).toPrettyString()
         return new JsonLd(this).toPrettyString()
     }
 
@@ -60,7 +51,9 @@ class Container {
 
     private void initFromMap(Map map) {
         this.text = map.text
-
+        map.metadata.each { name, value ->
+            this.metadata[name] = value
+        }
         map.steps.each { step ->
             ProcessingStep processingStep = new ProcessingStep()
             step.metadata.each { key,value ->
