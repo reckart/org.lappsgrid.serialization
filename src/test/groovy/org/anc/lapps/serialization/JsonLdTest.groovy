@@ -17,7 +17,7 @@ import static org.junit.Assert.*
 
 import org.anc.lapps.serialization.JsonLd
 
-
+@Ignore
 class JsonLdTest {
 
 
@@ -49,4 +49,5 @@ class JsonLdTest {
 //        jld2.obj2jsonld(antn)
         println '----------------------------->'
     }
+
 }

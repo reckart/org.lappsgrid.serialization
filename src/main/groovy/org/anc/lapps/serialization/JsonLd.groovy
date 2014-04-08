@@ -6,6 +6,8 @@ import com.github.jsonldjava.core.JsonLdProcessor
 import com.github.jsonldjava.utils.JSONUtils
 import groovy.json.JsonBuilder
 
+//import groovy.json.JsonBuilder
+
 /**
  * Created by Chunqi SHI (shicq@brandeis.edu) on 2/7/14.
  */
@@ -13,6 +15,7 @@ import groovy.json.JsonBuilder
 //
 // http://www.w3.org/TR/json-ld-api/#jsonldoptions
 //
+@Deprecated
 class JsonLd {
     static String text = JsonLd.class.getResource( '/JsonLd.config' ).text
     static config = new ConfigSlurper().parse(text)
@@ -66,6 +69,7 @@ class JsonLd {
         def root =  "class_" + clsname
         def jsonconfigobj = [:]
         configKeywords.eachWithIndex { String keywordEntry, int j ->
+            //println "${j} keyword: ${keywordEntry}"
             def configPath = root + "." + keywordEntry
             def jsonconfig = getJsonObj(configPath)
             if (jsonconfig != null)
@@ -129,6 +133,7 @@ class JsonLd {
     }
 
     def bool2jsonld(root, str) {
+        println 'converting bool'
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@type":"xsd:boolean"]
@@ -144,6 +149,7 @@ class JsonLd {
 //    }
 
     def int2jsonld(root, str) {
+        println 'converting int'
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@type":"xsd:integer"]
@@ -151,6 +157,7 @@ class JsonLd {
     }
 
     def float2jsonld(root, str) {
+        println 'Converting float'
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@type":"xsd:double"]
@@ -158,6 +165,8 @@ class JsonLd {
     }
 
     def str2jsonld(root, str) {
+        println "Converting string."
+        //println "Converting ${str} to JSON"
         def json = new JsonBuilder(str).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = [:]
@@ -165,6 +174,7 @@ class JsonLd {
     }
 
     def list2jsonld(root, list) {
+        println "Converting list"
         def json = new JsonBuilder(list).toString()
         def jsonobj = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@container":"@list"]
@@ -172,6 +182,7 @@ class JsonLd {
     }
 
     def map2jsonld(root, Map map) {
+        println "Converting map"
         def json = new JsonBuilder(map).toString()
         def jsonld = JSONUtils.fromString(json)
         def jsonldcontextobj = ["@container":"@index"]
@@ -223,13 +234,19 @@ class JsonLd {
     }
 
     def obj2jsonld(root, obj){
+        println "Converting object ${obj.class.name}"
         String json = new JsonBuilder(obj).toString()
         def jsonld = JSONUtils.fromString(json)
         def jsonldcontextobj = [:]
 
         obj.getProperties().eachWithIndex { Map.Entry<Object, Object> entry, int i ->
             if (!ignoredProperties.contains(entry.key)) {
-                def propertyroot = root + "." + entry.key
+                def key = entry.key
+                if (key == 'label') {
+                    key = '@type';
+                    println "Changing key to ${key}"
+                }
+                def propertyroot = root + "." + key
                 def valclsname = getClassLastName(entry.value)
                 Object[] jsonlds = null
                 if (is_null(entry.value)) {
@@ -251,8 +268,8 @@ class JsonLd {
                     jsonlds = obj2jsonld(propertyroot, entry.value)
                 }
                 if (jsonlds != null) {
-                    jsonld.put(entry.key, jsonlds[0])
-                    jsonldcontextobj.put(entry.key, jsonlds[1])
+                    jsonld.put(key, jsonlds[0])
+                    //jsonldcontextobj.put(entry.key, jsonlds[1])
                 }
             }
         }

@@ -1,5 +1,7 @@
 package org.anc.lapps.serialization
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * @author Keith Suderman
  */
@@ -13,7 +15,8 @@ class Annotation {
     String id
 
     /** The label used for the annotation, e.g. tok, s, etc. */
-    String label
+    @JsonProperty('@type')
+    String type
 
     /** The start offset of the annotation. */
     long start = -1
@@ -57,6 +60,12 @@ class Annotation {
             }
         }
     }
+
+    void setLabel(String label) {
+        this.type = label
+    }
+
+    String getLabel() { return this.type }
 
     String toString() {
         return "${label} (${start}-${end}) ${features}"
