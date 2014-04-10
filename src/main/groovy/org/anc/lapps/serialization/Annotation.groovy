@@ -1,10 +1,14 @@
 package org.anc.lapps.serialization
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 
 /**
  * @author Keith Suderman
  */
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 class Annotation {
     /** A unique ID assigned to this annotation.
      * <p>
@@ -36,7 +40,8 @@ class Annotation {
         map.each { key, value ->
             switch(key) {
                 case 'label':
-                    this.label = value
+                case 'type':
+                    this.type = value
                     break
                 case 'start':
                     this.start = value as Long
@@ -54,17 +59,19 @@ class Annotation {
                     this.metadata << value
                     break
                 default:
-                    println "${key} = ${value}"
+                    //println "${key} = ${value}"
                     features[key] = value
                     break
             }
         }
     }
 
+    @JsonIgnore
     void setLabel(String label) {
         this.type = label
     }
 
+    @JsonIgnore
     String getLabel() { return this.type }
 
     String toString() {
