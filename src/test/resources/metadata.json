@@ -1,0 +1,94 @@
+{
+    "metadata" : { },
+    "steps" : [ {
+        "metadata" : {
+            "annotationInfo" : {
+                "tokens" : {
+                    "url" : "http://grid.anc.org:8080/service_manager/invoker/anc:gate.tokenizer_1.3.4",
+                    "producer" : "org.anc.lapps.gate.tokenizer",
+                    "type" : "opennlptokens"
+                },
+                "pos" : {
+                    "url" : "http://grid.anc.org:8080/service_manager/invoker/anc:gate.tagger_1.3.4",
+                    "producer" : "org.anc.lapps.gate.Tagger",
+                    "type" : "penn"
+                }
+            }
+        },
+        "annotations" : [ {
+            "id" : "t1",
+            "start" : 0,
+            "end" : 4,
+            "features" : {
+                "pos" : "NN",
+                "lemma" : "Fido"
+            },
+            "@type" : "Token"
+        }, {
+            "id" : "t2",
+            "start" : 5,
+            "end" : 10,
+            "features" : {
+                "pos" : "VBZ",
+                "lemma" : "bark"
+            },
+            "@type" : "Token"
+        }, {
+            "id" : "t3",
+            "start" : 11,
+            "end" : 12,
+            "features" : {
+                "pos" : "."
+            },
+            "@type" : "Token"
+        } ]
+    } ],
+    "@type" : "textAnnotation",
+    "text" : {
+        "@value" : "Fido barks.",
+        "@language" : "en"
+    },
+    "@context" : {
+        "@vocab" : "http://vocab.lappsgrid.org/",
+        "xsd" : "http://www.w3.org/2001/XMLSchema#",
+        "meta" : {
+            "@id" : "http://meta.lappsgrid.org/",
+            "@type" : "@id"
+        },
+        "syntax" : {
+            "@id" : "http://syntax.lappsgrid.org/",
+            "@type" : "@id"
+        },
+        "metadata" : "syntax:metadata",
+        "steps" : {
+            "@id" : "syntax:steps",
+            "@container" : "@list"
+        },
+        "annotations" : {
+            "@id" : "syntax:annotations",
+            "@container" : "@list"
+        },
+        "id" : {
+            "@id" : "syntax:id",
+            "@type" : "xsd:string"
+        },
+        "start" : {
+            "@id" : "syntax:start",
+            "@type" : "xsd:long"
+        },
+        "end" : {
+            "@id" : "syntax:end",
+            "@type" : "xsd:long"
+        },
+        "features" : {
+            "@id" : "syntax:features",
+            "@container" : "@set"
+        },
+        "annotationInfo" : "meta:annotationInfo",
+        "producer" : "meta:producer",
+        "url" : "meta:url",
+        "tokenType" : "meta:url",
+        "posType" : "meta:url",
+        "version" : "meta:version"
+    }
+}

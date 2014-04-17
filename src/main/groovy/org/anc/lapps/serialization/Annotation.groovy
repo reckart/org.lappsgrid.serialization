@@ -3,12 +3,16 @@ package org.anc.lapps.serialization
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 
 /**
+ * Information about a standoff annotation.
+ *
  * @author Keith Suderman
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonPropertyOrder(['type', 'id', 'start', 'end', 'features', 'metadata'])
 class Annotation {
     /** A unique ID assigned to this annotation.
      * <p>

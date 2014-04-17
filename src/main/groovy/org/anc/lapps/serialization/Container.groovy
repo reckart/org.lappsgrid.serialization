@@ -3,10 +3,9 @@ package org.anc.lapps.serialization
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import groovy.json.JsonBuilder
-import groovy.json.JsonSlurper
 
 /**
  * Container objects associate a body of text with any annotations that have
@@ -17,6 +16,7 @@ import groovy.json.JsonSlurper
  * @author Keith Suderman
  */
 //@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonPropertyOrder(["context","metadata","text","steps"])
 class Container {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     class Content {
@@ -26,9 +26,6 @@ class Container {
         String language
         public Content() { }
     }
-
-    @JsonProperty('@type')
-    String type = 'textAnnotation'
 
     /** The text that is to be annotated. */
     @JsonProperty('text')
@@ -40,34 +37,61 @@ class Container {
     /** The list of annotations that have been created for the text. */
     List<ProcessingStep> steps = []
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @JsonProperty("@context")
     Map context = [
         '@vocab':'http://vocab.lappsgrid.org/',
+        'meta':'http://vocab.lappsgrid.org/metadata/',
+        'lif':'http://vocab.lappsgrid.org/interchange/',
+        'types':'http://vocab.lappsgrid.org/types/',
+        'metadata': 'meta:metadata',
+        'contains': 'meta:contains',
+        'producer': 'meta:producer',
+        'url': ['@id':'meta:url', '@type':'@id'],
+        'type':['@id':'meta:type', '@type':'@id'],
+        'version':'meta:version',
+        'text':'lif:text',
+        'steps': 'lif:steps',
+        'annotations': 'lif:annoations',
+        'tokenization': 'types:tokenization/',
+        'tagset': 'types:posType/',
+        'ner': 'types:ner/',
+        'coref': "types:coref",
+        'chunk': "types:chunk"
+
+            /*
+        'vocab':'http://vocab.lappsgrid.org/',
         'xsd': 'http://www.w3.org/2001/XMLSchema#',
         'meta': [
             '@id': 'http://meta.lappsgrid.org/',
             '@type': '@id'
         ],
-        'syntax': [
-            '@id': 'http://syntax.lappsgrid.org/',
+        'lif': [
+            '@id': 'http://interchange.lappsgrid.org/',
             '@type': '@id'
         ],
-        'metadata': 'syntax:metadata',
-        'steps': [ '@id':'syntax:steps', '@container':'@list'],
-        'annotations': ['@id':'syntax:annotations', '@container':'@list'],
-        'id': ['@id':'syntax:id', '@type':'xsd:string'],
-        'start': ['@id':'syntax:start', '@type':'xsd:long'],
-        'end': ['@id':'syntax:end', '@type':'xsd:long'],
-        'features': ['@id':'syntax:features', '@container':'@set'],
+        'type': [
+            '@id':'lif:type/',
+            '@type':'@id'
+        ],
+        'Token': 'Token',
+        'text':'text',
+        'metadata': 'metadata',
+        'steps': [ '@id':'lif:steps', '@container':'@list'],
+        'annotations': ['@id':'lif:annotations', '@container':'@list'],
+        'id': ['@id':'lif:id', '@type':'xsd:string'],
+        'start': ['@id':'Token#start', '@type':'xsd:long'],
+        'end': ['@id':'Token#end', '@type':'xsd:long'],
+        'features': ['@id':'Token#features', '@container':'@set'],
 
-        'annotationInfo': 'meta:annotationInfo',
+        'contains': 'meta:contains',
         'producer': 'meta:producer',
         'url': 'meta:url',
-        'tokenType': 'meta:url',
-        'posType': 'meta:url',
+        //'tokenType': 'meta:url',
+        //'posType': 'meta:url',
         'version': 'meta:version'
+        */
     ]
 
     /** Default (empty) constructor. Does nothing. */
