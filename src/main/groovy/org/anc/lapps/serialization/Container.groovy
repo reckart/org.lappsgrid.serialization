@@ -42,7 +42,7 @@ class Container {
     @JsonProperty("@context")
     def context
 
-    private static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context.jsonld"
+    private static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
 
     private static final Map LOCAL_CONTEXT = [
         '@vocab':'http://vocab.lappsgrid.org/',

@@ -74,6 +74,7 @@ class ContainerTest {
         println "ContainerTest.testContainerMetadata"
         Container container = new Container()
         container.text = 'Hello world'
+        container.language = 'en'
         container.metadata.text = 'text'
         container.metadata.map = [foo:'foo', bar:'bar']
         container.metadata.list = [0,1,2,3,4]
@@ -147,5 +148,24 @@ class ContainerTest {
         assertTrue(container.context.morpheme['@id'] == uri)
         assertTrue(container.context.morpheme['@type'] == '@id')
         println json
+    }
+
+    @Test
+    public void testLocalContext() {
+        Container container = new Container(true)
+        assertTrue("Context is not a map!", container.context instanceof Map)
+        // Now check a few a few values in the context.
+        assertTrue('http://vocab.lappsgrid.org/' == container.context['@vocab'])
+        assertTrue('http://vocab.lappsgrid.org/types/' == container.context.types)
+    }
+
+    @Test
+    public void testRemoteContext() {
+        Container container = new Container(false)
+        assertTrue("Context is not a string!", container.context instanceof String)
+        assertTrue(container.context == "http://vocab.lappsgrid.org/context-1.0.0.jsonld")
+        // Make sure the URL can be dereferenced.
+        URL url = new URL(container.context)
+        assertNotNull(url.text)
     }
 }
