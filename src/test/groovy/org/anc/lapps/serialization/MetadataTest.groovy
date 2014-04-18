@@ -2,6 +2,8 @@ package org.anc.lapps.serialization
 
 import org.anc.resource.ResourceLoader
 import org.junit.*
+import org.lappsgrid.vocabulary.Contents
+
 import static org.junit.Assert.*
 
 /**
@@ -40,7 +42,7 @@ class MetadataTest {
 
     @Test
     void generateMetadata() {
-        Container c = new Container()
+        Container c = new Container(false)
         c.metadata.version = '1.0'
         c.text = 'Fido barks.'
         c.language = 'en'
@@ -49,13 +51,13 @@ class MetadataTest {
         tokens.with {
             url = 'http://grid.anc.org:8080/service_manager/invoker/anc:gate.tokenizer_1.3.4'
             producer = 'org.anc.lapps.gate.tokenizer'
-            type = 'tokenization:gate'
+            type = Contents.Tokenizations.ANNIE
         }
         def pos = new Contains()
         pos.with {
             url = 'http://grid.anc.org:8080/service_manager/invoker/anc:gate.tagger_1.3.4'
             producer = 'org.anc.lapps.gate.Tagger'
-            type = 'tagset:penn'
+            type = Contents.TagSets.GATE
         }
 //        def sentences = new Contains()
 //        sentences.with {

@@ -40,7 +40,11 @@ class Container {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @JsonProperty("@context")
-    Map context = [
+    def context
+
+    private static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context.jsonld"
+
+    private static final Map LOCAL_CONTEXT = [
         '@vocab':'http://vocab.lappsgrid.org/',
         'meta':'http://vocab.lappsgrid.org/metadata/',
         'lif':'http://vocab.lappsgrid.org/interchange/',
@@ -57,8 +61,8 @@ class Container {
         'tokenization': 'types:tokenization/',
         'tagset': 'types:posType/',
         'ner': 'types:ner/',
-        'coref': "types:coref",
-        'chunk': "types:chunk"
+        'coref': "types:coref/",
+        'chunk': "types:chunk/"
 
             /*
         'vocab':'http://vocab.lappsgrid.org/',
@@ -96,18 +100,27 @@ class Container {
 
     /** Default (empty) constructor. Does nothing. */
     public Container() {
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        this(true)
     }
 
+    public Container(boolean local) {
+        if (local) {
+            context = LOCAL_CONTEXT
+        }
+        else {
+            context = REMOTE_CONTEXT
+        }
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
     /** Constructs a Container object from the values stored in the Map. */
-    public Container(Map map) {
-        this()
+    public Container(boolean local, Map map) {
+        this(local)
         initFromMap(map)
     }
 
     /** Constructs a Container object from the JSON representation. */
     public Container(String json) {
-        this()
+        this(false)
         //Map map = new JsonSlurper().parseText(json)
         //initFromMap(map)
         Container proxy = mapper.readValue(json, Container.class)
@@ -143,7 +156,11 @@ class Container {
 //    private Content getContent() { return null }
 //    private void setContent(Content ignored) { }
 
-    void define(String name, String iri) {
+    void define(String name, String iri) throws LappsIOException
+    {
+        if (!(this.context instanceof Map)) {
+            throw new LappsIOException("Can not define a context field when a remote context is used.")
+        }
         if (this.context[name]) {
             throw new LappsIOException("Context for ${name} already defined.")
         }

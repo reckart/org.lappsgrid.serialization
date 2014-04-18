@@ -14,7 +14,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.anc:common:3.2.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.anc:common:3.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.lappsgrid:vocabulary:0.10.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.1" level="project" />
