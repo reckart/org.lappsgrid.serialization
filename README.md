@@ -7,16 +7,13 @@ LAPPS grid.
 
 ## Maven
 
-Functionality of this package is contained in 
-Java package `com.fasterxml.jackson.core`.
-
 To use the package, you need to use following Maven dependency:
 
 ```xml
 <dependency>
   <groupId>org.anc.lapps</groupId>
   <artifactId>serialization</artifactId>
-  <version>0.12.0</version>
+  <version>0.13.0</version>
 </dependency>
 ```
 
@@ -53,9 +50,36 @@ class Container {
 }
 ```
 
+## Contexts
+
+By default Container objects will define a @context in the JSON document itself.  To refer to the remote @context at http://vocab.lappsgrid.org/context-1.0.0.jsonld create a Container and pass _false_ as the only parameter.
+
+```java
+Container containerWithLocalContext = new Container();
+Container containerWithRemoteContext = new Container(false);
+```
+
+When working with a local @context the entries in the @context are stored in a hash map that can be manipulated at runtime:
+
+```java
+Container container = new Container(); // Creates a container with a local @context object.
+Map context = container.getContext();
+context.put("foo", "http://example.com");
+
+```
+
+## Serializing
+
+_Container_ objects can be serialized to a JSON-LD string with the _toJson()_ or _toPrettyJson()_ methods.  Both representations are identical but the _toPrettyJson()_ method returns a string that is formatted to be human readable,
+
+To create a _Container_ object from a JSON-LD string simply pass the JSON string to the constructor.
+
+```java
+String jsonString = ...
+Container container = new Container(jsonString);
+```
 
 ## Examples
-
 
 ### Java
 
@@ -75,8 +99,8 @@ container.setText("Hello world");
 container.setLanguage("en");
 container.getSteps().add(step);
 
-String json = container.toJson()
-
+String json = container.toJson();
+System.out.println(container.toPrettyJson());
 ...
 
 Container container = new Container(json)
