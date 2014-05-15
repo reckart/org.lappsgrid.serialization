@@ -125,7 +125,7 @@ class ContainerTest {
         println json
     }
 
-    @Test
+    @Ignore
     public void testContext() {
         println "ContainerTest.testContext"
         String uri = 'http://langrid.org/vocab/morpheme'
@@ -150,14 +150,14 @@ class ContainerTest {
         println json
     }
 
-    @Test
-    public void testLocalContext() {
-        Container container = new Container(true)
-        assertTrue("Context is not a map!", container.context instanceof Map)
-        // Now check a few a few values in the context.
-        assertTrue('http://vocab.lappsgrid.org/' == container.context['@vocab'])
-        assertTrue('http://vocab.lappsgrid.org/types/' == container.context.types)
-    }
+//    @Test
+//    public void testLocalContext() {
+//        Container container = new Container(true)
+//        assertTrue("Context is not a map!", container.context instanceof Map)
+//        // Now check a few a few values in the context.
+//        assertTrue('http://vocab.lappsgrid.org/' == container.context['@vocab'])
+//        assertTrue('http://vocab.lappsgrid.org/types/' == container.context.types)
+//    }
 
     @Test
     public void testRemoteContext() {
@@ -167,5 +167,13 @@ class ContainerTest {
         // Make sure the URL can be dereferenced.
         URL url = new URL(container.context)
         assertNotNull(url.text)
+    }
+
+    @Test
+    public void testTestFile() {
+        String json = ResourceLoader.loadString('test_file.json')
+        Container container = new Container(json)
+//        println container.toPrettyJson()
+        assertNotNull("Container text is null.", container.text)
     }
 }

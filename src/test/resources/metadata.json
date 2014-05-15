@@ -2,7 +2,7 @@
     "metadata" : { },
     "steps" : [ {
         "metadata" : {
-            "annotationInfo" : {
+            "contains" : {
                 "tokens" : {
                     "url" : "http://grid.anc.org:8080/service_manager/invoker/anc:gate.tokenizer_1.3.4",
                     "producer" : "org.anc.lapps.gate.tokenizer",

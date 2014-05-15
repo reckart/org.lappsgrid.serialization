@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
  * @author Keith Suderman
  */
 @JsonPropertyOrder(['metadata', 'annotations'])
-class ProcessingStep {
+public class ProcessingStep {
     Map metadata
     List<Annotation> annotations
 

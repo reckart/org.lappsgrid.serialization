@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonPropertyOrder(['type', 'id', 'start', 'end', 'features', 'metadata'])
-class Annotation {
+public class Annotation {
     /** A unique ID assigned to this annotation.
      * <p>
      * <em>Note:</em> This ID value is assigned to the annotation by the framework

@@ -17,30 +17,23 @@ import com.fasterxml.jackson.databind.SerializationFeature
  */
 //@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonPropertyOrder(["context","metadata","text","steps"])
-class Container {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    class Content {
-        @JsonProperty('@value')
-        String value
-        @JsonProperty('@language')
-        String language
-        public Content() { }
-    }
+public class Container {
 
     /** The text that is to be annotated. */
     @JsonProperty('text')
-    Content content = new Content()
+    Content content;
+//    Map<String,String> content = [:]
 
     /** Any meta-data attached to this container. */
-    Map metadata = [:]
+    Map metadata // = [:]
 
     /** The list of annotations that have been created for the text. */
-    List<ProcessingStep> steps = []
+    List<ProcessingStep> steps // = []
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper; // = new ObjectMapper();
 
     @JsonProperty("@context")
-    def context
+    Object context
 
     private static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
 
@@ -62,40 +55,9 @@ class Container {
         'tagset': 'types:posType/',
         'ner': 'types:ner/',
         'coref': "types:coref/",
-        'chunk': "types:chunk/"
+        'chunk': "types:chunk/",
+        'lookup': "types:lookup/"
 
-            /*
-        'vocab':'http://vocab.lappsgrid.org/',
-        'xsd': 'http://www.w3.org/2001/XMLSchema#',
-        'meta': [
-            '@id': 'http://meta.lappsgrid.org/',
-            '@type': '@id'
-        ],
-        'lif': [
-            '@id': 'http://interchange.lappsgrid.org/',
-            '@type': '@id'
-        ],
-        'type': [
-            '@id':'lif:type/',
-            '@type':'@id'
-        ],
-        'Token': 'Token',
-        'text':'text',
-        'metadata': 'metadata',
-        'steps': [ '@id':'lif:steps', '@container':'@list'],
-        'annotations': ['@id':'lif:annotations', '@container':'@list'],
-        'id': ['@id':'lif:id', '@type':'xsd:string'],
-        'start': ['@id':'Token#start', '@type':'xsd:long'],
-        'end': ['@id':'Token#end', '@type':'xsd:long'],
-        'features': ['@id':'Token#features', '@container':'@set'],
-
-        'contains': 'meta:contains',
-        'producer': 'meta:producer',
-        'url': 'meta:url',
-        //'tokenType': 'meta:url',
-        //'posType': 'meta:url',
-        'version': 'meta:version'
-        */
     ]
 
     /** Default (empty) constructor. Does nothing. */
@@ -104,6 +66,11 @@ class Container {
     }
 
     public Container(boolean local) {
+        content = new Content()
+        mapper = new ObjectMapper()
+        metadata = new HashMap<String,Object>();
+        steps = new ArrayList<ProcessingStep>()
+//        context = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
         if (local) {
             context = LOCAL_CONTEXT
         }
@@ -112,6 +79,7 @@ class Container {
         }
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
+
     /** Constructs a Container object from the values stored in the Map. */
     public Container(boolean local, Map map) {
         this(local)
@@ -121,12 +89,7 @@ class Container {
     /** Constructs a Container object from the JSON representation. */
     public Container(String json) {
         this(false)
-        //Map map = new JsonSlurper().parseText(json)
-        //initFromMap(map)
         Container proxy = mapper.readValue(json, Container.class)
-        //this.text = new Text()
-        //this.text.value = proxy.text.value
-        //this.text.language = proxy.text.language
         this.content = proxy.content
         this.metadata = proxy.metadata
         this.steps = proxy.steps

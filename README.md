@@ -5,12 +5,28 @@ The LAPPS Exchange Data Structures are a small set of Java classes (Groovy class
 actually) that provide the data model for the JSON-LD data exchanged by services on the
 LAPPS grid.
 
-There are three classes that make up LEDS:
+## Maven
+
+Functionality of this package is contained in 
+Java package `com.fasterxml.jackson.core`.
+
+To use the package, you need to use following Maven dependency:
+
+```xml
+<dependency>
+  <groupId>org.anc.lapps</groupId>
+  <artifactId>serialization</artifactId>
+  <version>0.12.0</version>
+</dependency>
+```
+
+## Using
+There are three main classes that make up LEDS:
 
 1. **Annotation** Used to store information about a single annotation
 ```groovy
 class Annotation {
-       String label
+       String type
        Long start
        Long end
        Map features
@@ -31,77 +47,21 @@ processing services.
 ```groovy
 class Container {
         String text
+        String language
         List<ProcessingStep> steps
         Map metadata
 }
 ```
 
-4. **JsonLd** Used to convert class object into JSON-LD format. It works with the configuration file under
-directory src/main/resources/JsonLd.config.
-@Usage:
-    1. Jsonld keywords MUST start with "jsonld_"
-    2. Jsonld keywords content could be in closure " '''{ ... }'''  "
-    3. Jsonld keywords MUST be valid JSON, you could check syntax here: http://jsonlint.com/
-    4. Class configuration MUST start with "class_"
 
-```json
-class_annotation {
-    jsonld_context = '''{
-              "@context": {
-                "xsd": "http://www.w3.org/2001/XMLSchema#",
-                "id": "http://lapps.org/annotation/id",
-                "label" : "http://lapps.org/annotation/label",
-                "start": {
-                    "@id":"http://lapps.org/start",
-                    "@type": "xsd:integer"
-                },
-                "end": {
-                    "@id":"http://lapps.org/end",
-                    "@type": "xsd:integer"
-                },
-                "features" :{
-                    "@id":"http://lapps.org/features",
-                    "@container":"@index"
-                },
-                "metadata" : {
-                    "@id":"http://lapps.org/metadata",
-                    "@container":"@index"
-                }
-              }
-          }'''
+## Examples
 
-    jsonld_id = '''{
-            "@id": "http://lapps.org/annotation"
-          }'''
-
-}
-```
-
-
-Serialization
---
-
-The _org.anc.lapps.serialization.Serializer_ class can be used to serialize LEDS objects
-to/from JSON.  The _Serializer_ class contains three static methods:
-
-1.  `String Serializer.toJson(Container c)` <br/>
-    Returns the JSON representation of a Container object.
-
-
-1.  `String Serializer.toPrettyJson(Container c)` <br/>
-    Same as the above, but the JSON string is formatted for easier reading.
-
-1.  `Container Serializer.toContainer(String json)`<br/>
-    Parses the input JSON into a new _Container_ object.
-
-Examples
-==
 
 ### Java
 
 ```java
 Annotation a = new Annotation();
-a.setLabel("token");
+a.setType("token");
 a.setStart(0);
 a.setEnd(5);
 a.getFeatures().put("pos", "UH")
@@ -112,19 +72,20 @@ step.getAnnotation().add(a);
 
 Container container = new Container();
 container.setText("Hello world");
+container.setLanguage("en");
 container.getSteps().add(step);
 
-String json = Serializer.toJson(container);
+String json = container.toJson()
 
 ...
 
-Container container = Serializer.toContainer(json);
+Container container = new Container(json)
 ```
 
 ### Groovy
 ```groovy
-Annotation a = new Annotation(label:'token', start:0, end:5)
-a.features.['pos'] = 'UH'
+Annotation a = new Annotation(type:'token', start:0, end:5)
+a.features['pos'] = 'UH'
 
 ProcessingStep step = new ProcessingStep()
 step.metadata['pass'] = 1
@@ -133,9 +94,9 @@ step.annotations.add(a)
 Container container = new Container(text:'Hello world')
 container.steps.add(step)
 
-String json = Serializer.toJson(container)
+String json = container.toJson()
 
 ...
 
-Container container = Serializer.toContainer(json)
+Container container = new Container(json)
 ```
