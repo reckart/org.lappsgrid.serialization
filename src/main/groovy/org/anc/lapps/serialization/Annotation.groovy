@@ -78,6 +78,16 @@ public class Annotation {
     @JsonIgnore
     String getLabel() { return this.type }
 
+    @JsonIgnore
+    void addFeature(String name, String value) {
+        features[name] = value
+    }
+
+    @JsonIgnore
+    String getFeature(String name) {
+        return features[name]
+    }
+
     String toString() {
         return "${label} (${start}-${end}) ${features}"
     }

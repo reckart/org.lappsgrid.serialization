@@ -116,6 +116,18 @@ public class Container {
         return this.content.value
     }
 
+    void addStep(ProcessingStep step) {
+        this.steps << step
+    }
+
+    ProcessingStep getStep(int index) {
+        if (index >= 0 && index < steps.si()) {
+        return steps[index]
+        }
+        return null
+    }
+
+
 //    private Content getContent() { return null }
 //    private void setContent(Content ignored) { }
 

@@ -79,6 +79,39 @@ String jsonString = ...
 Container container = new Container(jsonString);
 ```
 
+## Metadata
+
+Almost every LEDS object contains a hash map for storing metadata.  In general applications are
+free to store whatever metadata they need in these maps.  The only required metadata
+is the _contains_ map in the _ProcessingStep_ metadata map.
+
+The _contains_ map contains information about the annotations available in that
+processing step as well as the service that generated the annotations.  The _contains_
+map looks like
+
+```
+"metadata" : {
+      "contains" : {
+        "Token" : {
+          "producer" : "http://service.that.produces.the.tokens",
+          "type" : "tokenization:custom"
+        }
+      }
+    },
+```
+
+To simplify the process of creating the _contains_ map the _ProcessingStep_ class
+provides a _addContains(String label, String producer, String type)_ method. For
+ example the above JSON can be generated with:
+
+```java
+Container container = new Container(false);
+ProcessingStep step = new ProcessingStep()
+step.addContains("Token", "http://service.that.produces.the.tokens", "tokenization:custom");
+container.addStep(step)
+System.out.println(container.toPrettyJson();
+```
+
 ## Examples
 
 ### Java
