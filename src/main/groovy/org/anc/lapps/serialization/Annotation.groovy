@@ -1,9 +1,19 @@
 package org.anc.lapps.serialization
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+
 /**
+ * Information about a standoff annotation.
+ *
  * @author Keith Suderman
  */
-class Annotation {
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonPropertyOrder(['type', 'id', 'start', 'end', 'features', 'metadata'])
+public class Annotation {
     /** A unique ID assigned to this annotation.
      * <p>
      * <em>Note:</em> This ID value is assigned to the annotation by the framework
@@ -13,7 +23,8 @@ class Annotation {
     String id
 
     /** The label used for the annotation, e.g. tok, s, etc. */
-    String label
+    @JsonProperty('@type')
+    String type
 
     /** The start offset of the annotation. */
     long start = -1
@@ -33,7 +44,8 @@ class Annotation {
         map.each { key, value ->
             switch(key) {
                 case 'label':
-                    this.label = value
+                case 'type':
+                    this.type = value
                     break
                 case 'start':
                     this.start = value as Long
@@ -51,12 +63,20 @@ class Annotation {
                     this.metadata << value
                     break
                 default:
-                    println "${key} = ${value}"
+                    //println "${key} = ${value}"
                     features[key] = value
                     break
             }
         }
     }
+
+    @JsonIgnore
+    void setLabel(String label) {
+        this.type = label
+    }
+
+    @JsonIgnore
+    String getLabel() { return this.type }
 
     String toString() {
         return "${label} (${start}-${end}) ${features}"
