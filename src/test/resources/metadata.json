@@ -43,7 +43,6 @@
             "@type" : "Token"
         } ]
     } ],
-    "@type" : "textAnnotation",
     "text" : {
         "@value" : "Fido barks.",
         "@language" : "en"

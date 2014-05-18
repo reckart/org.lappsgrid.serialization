@@ -26,7 +26,7 @@ class MetadataTest {
         json = null
     }
 
-    @Ignore
+    @Test
     void parseMetadata() {
         Container c = new Container(json)
         assertTrue(c.text == 'Fido barks.')
@@ -41,6 +41,15 @@ class MetadataTest {
     }
 
     @Test
+    void addMetadataTest() {
+        Container c1 = new Container(false)
+        c1.setMetadata("test", "value")
+        Container c2 = new Container(c1.toJson())
+        assertTrue("value" == c2.getMetadata("test"))
+        println c2.toPrettyJson()
+    }
+
+    @Ignore
     void generateMetadata() {
         Container c = new Container(false)
         c.metadata.version = '1.0'
