@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 
 /**
- * Container objects associate a body of text with any annotations that have
+ * Container objects associate a body of text with the annotations that have
  * been created for that text.
- *
+ * <p>
  * This is the object that will eventually be serialized over the wire.
  *
  * @author Keith Suderman

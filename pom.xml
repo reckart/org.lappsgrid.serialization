@@ -9,9 +9,9 @@
     <version>0.13.0-SNAPSHOT</version>
     <name>LAPPS Exchange Data Structures (LEDS)</name>
     <parent>
-        <groupId>org.anc.maven</groupId>
+        <groupId>org.lappsgrid.maven</groupId>
         <artifactId>groovy-parent-pom</artifactId>
-        <version>1.1.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <properties>
         <java.version>1.6</java.version>
@@ -20,32 +20,48 @@
         <lapps.vocabulary.version>0.10.0-SNAPSHOT</lapps.vocabulary.version>
     </properties>
 
-    <!--
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
                 <executions>
                     <execution>
-                        <id>assembly</id>
-                        <phase>package</phase>
+                        <id>groovydoc</id>
+                        <phase>site</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <taskdef name="groovydoc"
+                                         classname="org.codehaus.groovy.ant.Groovydoc"
+                                         classpathref="maven.compile.classpath"
+                                        />
+                                <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc"
+                                           sourcepath="${basedir}/src/main/groovy" use="true"
+                                           windowtitle="${project.name}"
+                                           doctitle="${project.name}"
+                                        >
+                                    <link packages="java.,org.xml.,javax.,org.xml."
+                                          href="http://download.oracle.com/javase/6/docs/api" />
+                                    <link packages="org.apache.tools.ant."
+                                          href="http://evgeny-goldin.org/javadoc/ant/api" />
+                                    <link packages="org.junit.,junit.framework."
+                                          href="http://kentbeck.github.com/junit/javadoc/latest" />
+                                    <link packages="groovy.,org.codehaus.groovy."
+                                          href="http://groovy.codehaus.org/api/" />
+                                    <link packages="org.codehaus.gmaven."
+                                          href="http://evgeny-goldin.org/javadoc/gmaven" />
+                                </groovydoc>
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <appendAssemblyId>false</appendAssemblyId>
-                </configuration>
             </plugin>
         </plugins>
     </build>
-    -->
     <dependencies>
         <dependency>
             <groupId>org.anc</groupId>
@@ -64,4 +80,10 @@
             <version>2.3.1</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>maven-site</id>
+            <url>scp://suderman@anc.org:22022/home/www/anc/projects/lapps/serialization</url>
+        </site>
+    </distributionManagement>
 </project>
