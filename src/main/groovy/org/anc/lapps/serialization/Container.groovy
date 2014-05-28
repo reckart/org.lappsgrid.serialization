@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 
 /**
- * Container objects associate a body of text with any annotations that have
+ * Container objects associate a body of text with the annotations that have
  * been created for that text.
- *
+ * <p>
  * This is the object that will eventually be serialized over the wire.
  *
  * @author Keith Suderman
@@ -50,14 +50,23 @@ public class Container {
         'version':'meta:version',
         'text':'lif:text',
         'steps': 'lif:steps',
-        'annotations': 'lif:annoations',
+        'annotations': 'lif:annotations',
         'tokenization': 'types:tokenization/',
         'tagset': 'types:posType/',
         'ner': 'types:ner/',
         'coref': "types:coref/",
         'chunk': "types:chunk/",
-        'lookup': "types:lookup/"
-
+        'lookup': "types:lookup/",
+        'token': "http://vocab.lappsgrid.org/Token#",
+        "common": "http://vocab.lappsgrid.org/Annotation#",
+        "id":"common:id",
+        "start":"common:start",
+        "end":"common:end",
+        "pos":"token:pos",
+        "lemma":"token:lemma",
+        "kind":"token:kind",
+        "length":"token:length",
+        "orth":"token:orth",
     ]
 
     /** Default (empty) constructor. Does nothing. */
@@ -116,6 +125,12 @@ public class Container {
         return this.content.value
     }
 
+    ProcessingStep newStep() {
+        ProcessingStep step = new ProcessingStep();
+        steps.add(step)
+        return step
+    }
+
     void addStep(ProcessingStep step) {
         this.steps << step
     }
@@ -127,6 +142,14 @@ public class Container {
         return null
     }
 
+
+    void setMetadata(String name, Object value) {
+        this.metadata[name] = value
+    }
+
+    Object getMetadata(String name) {
+        return this.metadata[name]
+    }
 
 //    private Content getContent() { return null }
 //    private void setContent(Content ignored) { }

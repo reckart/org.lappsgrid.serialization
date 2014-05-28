@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * <p>
  * While a value object may contains other keys, for our purposes we only need
  * the <i>value</i> and <i>type</i> keys.
- *
+ * <p>
+ * This class isn't currently used anywhere anymore.
  * @author Keith Suderman
  */
 class ValueObject {
