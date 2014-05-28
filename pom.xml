@@ -8,9 +8,10 @@
     <artifactId>serialization</artifactId>
     <version>1.0.0</version>
     <name>LAPPS Exchange Data Structures (LEDS)</name>
+    <description>Data structures to serialize to/from JSON-LD.</description>
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
-        <artifactId>groovy-parent-pom</artifactId>
+        <artifactId>war-parent-pom</artifactId>
         <version>1.0.0</version>
     </parent>
     <properties>
