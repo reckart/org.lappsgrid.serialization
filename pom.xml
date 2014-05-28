@@ -6,62 +6,19 @@
 
     <groupId>org.anc.lapps</groupId>
     <artifactId>serialization</artifactId>
-    <version>0.13.0-SNAPSHOT</version>
+    <version>0.13.0</version>
     <name>LAPPS Exchange Data Structures (LEDS)</name>
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
         <artifactId>groovy-parent-pom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <properties>
-        <java.version>1.6</java.version>
-        <lapps.version>1.0.1</lapps.version>
         <anc.common.version>3.4.0</anc.common.version>
-        <lapps.vocabulary.version>0.10.0-SNAPSHOT</lapps.vocabulary.version>
+        <lapps.vocabulary.version>0.10.0</lapps.vocabulary.version>
+        <jackson.version>2.3.1</jackson.version>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <id>groovydoc</id>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <taskdef name="groovydoc"
-                                         classname="org.codehaus.groovy.ant.Groovydoc"
-                                         classpathref="maven.compile.classpath"
-                                        />
-                                <groovydoc destdir="${project.reporting.outputDirectory}/groovydoc"
-                                           sourcepath="${basedir}/src/main/groovy" use="true"
-                                           windowtitle="${project.name}"
-                                           doctitle="${project.name}"
-                                        >
-                                    <link packages="java.,org.xml.,javax.,org.xml."
-                                          href="http://download.oracle.com/javase/6/docs/api" />
-                                    <link packages="org.apache.tools.ant."
-                                          href="http://evgeny-goldin.org/javadoc/ant/api" />
-                                    <link packages="org.junit.,junit.framework."
-                                          href="http://kentbeck.github.com/junit/javadoc/latest" />
-                                    <link packages="groovy.,org.codehaus.groovy."
-                                          href="http://groovy.codehaus.org/api/" />
-                                    <link packages="org.codehaus.gmaven."
-                                          href="http://evgeny-goldin.org/javadoc/gmaven" />
-                                </groovydoc>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
     <dependencies>
         <dependency>
             <groupId>org.anc</groupId>
@@ -77,7 +34,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.3.1</version>
+            <version>${jackson.version}</version>
         </dependency>
     </dependencies>
     <distributionManagement>
