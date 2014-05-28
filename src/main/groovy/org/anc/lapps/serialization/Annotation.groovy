@@ -40,6 +40,13 @@ public class Annotation {
     Map metadata = [:]
 
     public Annotation() { }
+
+    public Annotation(String type, long start, long end) {
+        this.type = type
+        this.start = start
+        this.end = end
+    }
+
     public Annotation(Map map) {
         map.each { key, value ->
             switch(key) {

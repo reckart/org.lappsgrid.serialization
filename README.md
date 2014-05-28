@@ -3,7 +3,7 @@ LAPPS Exchange Data Structures (LEDS).
 
 The LAPPS Exchange Data Structures are a small set of Java classes (Groovy classes 
 actually) that provide the data model for the JSON-LD data exchanged by services on the
-LAPPS grid.
+LAPPS grid. 
 
 ## Maven
 
@@ -83,7 +83,7 @@ Container container = new Container(jsonString);
 
 Almost every LEDS object contains a hash map for storing metadata.  In general applications are
 free to store whatever metadata they need in these maps.  The only required metadata
-is the _contains_ map in the _ProcessingStep_ metadata map.
+is the _contains_ map in the _ProcessingStep_.
 
 The _contains_ map contains information about the annotations available in that
 processing step as well as the service that generated the annotations.  The _contains_
