@@ -14,10 +14,10 @@
  * limitations under the License.
  *
  */
-package org.anc.lapps.serialization
+package org.lappsgrid.serialization
 
 /**
- * Holds information for the 'contains' sections of a {@link org.anc.lapps.serialization.ProcessingStep}'s
+ * Holds information for the 'contains' sections of a {@link ProcessingStep}'s
  * metadata section.
  * <p/>
  * The <em>contains</em> metadata allows pipelines (planners or composers) to determine the

@@ -1,6 +1,8 @@
-package org.anc.lapps.serialization
+package org.lappsgrid.serialization
 
 import org.junit.*
+import org.lappsgrid.serialization.ValueObject
+
 import static org.junit.Assert.*
 
 /**

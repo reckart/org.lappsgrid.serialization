@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.anc.lapps.serialization
+package org.lappsgrid.serialization
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -95,7 +95,6 @@ public class Container {
         mapper = new ObjectMapper()
         metadata = new HashMap<String,Object>();
         steps = new ArrayList<ProcessingStep>()
-//        context = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
         if (local) {
             context = LOCAL_CONTEXT
         }

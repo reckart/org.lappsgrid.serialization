@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.anc.lapps.serialization;
+package org.lappsgrid.serialization;
 
 import java.io.IOException;
 

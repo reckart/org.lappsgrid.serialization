@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.anc.lapps.serialization
+package org.lappsgrid.serialization
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty

@@ -1,10 +1,14 @@
-package org.anc.lapps.serialization
+package org.lappsgrid.serialization
 import org.anc.io.FileUtils
 import org.anc.resource.ResourceLoader
 import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+import org.lappsgrid.serialization.Annotation
+import org.lappsgrid.serialization.Container
+import org.lappsgrid.serialization.ProcessingStep
+
 import static org.junit.Assert.*
 
 /**

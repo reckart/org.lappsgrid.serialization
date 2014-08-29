@@ -1,7 +1,11 @@
-package org.anc.lapps.serialization
+package org.lappsgrid.serialization
 
 import org.anc.resource.ResourceLoader
 import org.junit.*
+import org.lappsgrid.serialization.Annotation
+import org.lappsgrid.serialization.Container
+import org.lappsgrid.serialization.Contains
+import org.lappsgrid.serialization.ProcessingStep
 import org.lappsgrid.vocabulary.Contents
 
 import static org.junit.Assert.*
