@@ -87,7 +87,7 @@ public class Container {
 
     /** Default (empty) constructor. Does nothing. */
     public Container() {
-        this(true)
+        this(false)
     }
 
     public Container(boolean local) {
