@@ -35,6 +35,10 @@ import com.fasterxml.jackson.databind.SerializationFeature
 @JsonPropertyOrder(["context","metadata","text","steps"])
 public class Container {
 
+    public enum ContextType {
+        LOCAL, REMOTE
+    }
+
     /** The text that is to be annotated. */
     @JsonProperty('text')
     Content content;
@@ -51,9 +55,9 @@ public class Container {
     @JsonProperty("@context")
     Object context
 
-    private static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
+    public static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
 
-    private static final Map LOCAL_CONTEXT = [
+    public static final Map LOCAL_CONTEXT = [
         '@vocab':'http://vocab.lappsgrid.org/',
         'meta':'http://vocab.lappsgrid.org/metadata/',
         'lif':'http://vocab.lappsgrid.org/interchange/',
@@ -85,9 +89,23 @@ public class Container {
         "orth":"token:orth",
     ]
 
-    /** Default (empty) constructor. Does nothing. */
+    /** Default (empty) constructor uses the remote context. */
     public Container() {
-        this(false)
+        this(ContextType.REMOTE)
+    }
+
+    public Container(ContextType type) {
+        content = new Content()
+        mapper = new ObjectMapper()
+        metadata = new HashMap<String,Object>();
+        steps = new ArrayList<ProcessingStep>()
+        if (type == ContextType.LOCAL) {
+            context = LOCAL_CONTEXT
+        }
+        else {
+            context = REMOTE_CONTEXT
+        }
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
     public Container(boolean local) {
@@ -112,7 +130,7 @@ public class Container {
 
     /** Constructs a Container object from the JSON representation. */
     public Container(String json) {
-        this(false)
+        this(ContextType.REMOTE)
         Container proxy = mapper.readValue(json, Container.class)
         this.content = proxy.content
         this.metadata = proxy.metadata

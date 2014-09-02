@@ -164,6 +164,20 @@ class ContainerTest {
 //    }
 
     @Test
+    public void testDefaultContext() {
+        Container container = new Container()
+        assertTrue container.context == Container.REMOTE_CONTEXT
+        container = new Container(container.toJson())
+        assertTrue container.context == Container.REMOTE_CONTEXT
+
+        container = new Container(Container.ContextType.REMOTE)
+        assertTrue container.context == Container.REMOTE_CONTEXT
+
+        container = new Container(Container.ContextType.LOCAL)
+        assertTrue container.context == Container.LOCAL_CONTEXT
+    }
+
+    @Test
     public void testRemoteContext() {
         Container container = new Container(false)
         assertTrue("Context is not a string!", container.context instanceof String)
