@@ -20,10 +20,10 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * The Content object is a JSON "value object", that is an object with a @value
- * field.
+ * The Content object is a JSON "value object", that is, a JSON object with a @value
+ * field. The optional @language field is also included.
  * <p>
- * Content objects are used to hold the document text and language field.
+ *
  * @author Keith Suderman
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)

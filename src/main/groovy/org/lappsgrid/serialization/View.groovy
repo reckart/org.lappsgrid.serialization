@@ -19,16 +19,19 @@ package org.lappsgrid.serialization
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 
 /**
- * A ProcessingStep consists of some metadata and a list of annotations.
+ * A View consists of some metadata and a list of annotations.
  * <p>
  * Each LAPPS processing service will generally place the annotations it generates in
- * its own ProcessingStep object.  This makes it easier to determine the annotations
+ * its own View object.  This makes it easier to determine the annotations
  * produces by each processor and to quickly extract that subset of annotations.
+ * <p>
+ * However, the concept of a View is meant to be very generic and can contain
+ * any arbitrary collection of annotations grouped with arbitrary metadata.
  *
  * @author Keith Suderman
  */
 @JsonPropertyOrder(['metadata', 'annotations'])
-public class ProcessingStep {
+public class View {
     /**
      * User defined metadata for this processing step.
      */
@@ -39,12 +42,12 @@ public class ProcessingStep {
      */
     List<Annotation> annotations
 
-    public ProcessingStep() {
+    public View() {
         metadata = [:]
         annotations = []
     }
 
-    public ProcessingStep(Map map) {
+    public View(Map map) {
         metadata = map.metadata
         annotations = map.annotations
     }
