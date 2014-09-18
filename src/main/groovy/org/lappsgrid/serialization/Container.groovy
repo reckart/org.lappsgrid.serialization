@@ -80,6 +80,7 @@ public class Container {
         "common": "http://vocab.lappsgrid.org/Annotation#",
         "id":"common:id",
         "start":"common:start",
+        "label":"common:label",
         "end":"common:end",
         "pos":"token:pos",
         "lemma":"token:lemma",

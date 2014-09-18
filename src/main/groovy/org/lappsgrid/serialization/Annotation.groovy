@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
  * @author Keith Suderman
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-@JsonPropertyOrder(['type', 'id', 'start', 'end', 'features', 'metadata'])
+@JsonPropertyOrder(['id', 'start', 'end', '@type', 'type', 'label', 'features', 'metadata'])
 public class Annotation {
     /** A unique ID assigned to this annotation.
      * <p>
@@ -38,13 +38,18 @@ public class Annotation {
     String id
 
     /** The label used for the annotation, e.g. tok, s, etc. */
+//    @JsonProperty('@type')
+    String label
+
     @JsonProperty('@type')
+    String atType
+
     String type
 
     /** The start offset of the annotation. */
-    long start = -1
+    Long start = null
     /** The end offset of the annotation. */
-    long end = -1
+    Long end = null
 
     /** Features of the annotation. */
     Map features = [:]
@@ -56,8 +61,8 @@ public class Annotation {
 
     public Annotation() { }
 
-    public Annotation(String type, long start, long end) {
-        this.type = type
+    public Annotation(String label, long start, long end) {
+        this.label = label
         this.start = start
         this.end = end
     }
@@ -66,6 +71,11 @@ public class Annotation {
         map.each { key, value ->
             switch(key) {
                 case 'label':
+                    this.label = value
+                    break
+                case '@type':
+                    this.atType = value
+                    break
                 case 'type':
                     this.type = value
                     break
@@ -92,13 +102,13 @@ public class Annotation {
         }
     }
 
-    @JsonIgnore
-    void setLabel(String label) {
-        this.type = label
-    }
-
-    @JsonIgnore
-    String getLabel() { return this.type }
+//    @JsonIgnore
+//    void setLabel(String label) {
+//        this.label = label
+//    }
+//
+//    @JsonIgnore
+//    String getLabel() { return this.type }
 
     @JsonIgnore
     void addFeature(String name, String value) {

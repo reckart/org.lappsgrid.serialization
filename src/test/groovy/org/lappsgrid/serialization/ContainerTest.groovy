@@ -1,22 +1,19 @@
 package org.lappsgrid.serialization
-import org.anc.io.FileUtils
-import org.anc.resource.ResourceLoader
+
 import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-import org.lappsgrid.serialization.Annotation
-import org.lappsgrid.serialization.Container
-import org.lappsgrid.serialization.ProcessingStep
 
-import static org.junit.Assert.*
+import static org.junit.Assert.assertNotNull
+import static org.junit.Assert.assertTrue
 
 /**
  * @author Keith Suderman
  */
 class ContainerTest {
 
-    private static final String INPUT_FILE_NAME = "Bartok.txt"
+    private static final String INPUT_FILE_NAME = "/Bartok.txt"
 
     private File TEST_FILE
 
@@ -47,14 +44,22 @@ class ContainerTest {
     public void testPrettyJson()
     {
         println "ContainerTest.testPrettyJson"
-        final Container original = new Container();
-        original.text = ResourceLoader.loadString(INPUT_FILE_NAME);
-        FileUtils.write(TEST_FILE, original.toPrettyJson());
+        Container original = new Container();
+        original.text = getResource(INPUT_FILE_NAME)
+//        TEST_FILE.text = original.toPrettyJson()
+//        FileUtils.write(TEST_FILE, original.toPrettyJson());
+        TEST_FILE.withWriter('UTF-8') {
+            it.write(original.toPrettyJson())
+            it.flush()
+            it.close()
+        }
 
-        final String json = FileUtils.read(TEST_FILE);
-        println json
+
+//        final String json = FileUtils.read(TEST_FILE);
+        final String json = TEST_FILE.getText('UTF-8')
+        //println json
         Container copy = new Container(json);
-        //println container.text
+        //println copy.toPrettyJson()
         assertTrue(original.text == copy.text)
     }
 
@@ -63,12 +68,19 @@ class ContainerTest {
     {
         println "ContainerTest.testJson"
         final Container original = new Container()
-        original.text = ResourceLoader.loadString(INPUT_FILE_NAME)
-        FileUtils.write(TEST_FILE, original.toJson());
-
-        final String json = FileUtils.read(TEST_FILE)
-        println json
+        original.text = getResource(INPUT_FILE_NAME)
+//        TEST_FILE.text = original.toJson()
+        TEST_FILE.withWriter('UTF-8') {
+            it.write(original.toJson())
+            it.flush()
+            it.close()
+        }
+        final String json = TEST_FILE.getText('UTF-8')
+        //println json
         Container copy = new Container(json)
+        //println copy.toPrettyJson()
+//        println original.text
+//        println copy.text
         assertTrue(original.text == copy.text)
     }
 
@@ -105,27 +117,30 @@ class ContainerTest {
         Container container = new Container()
         container.text = 'hello world'
         container.metadata = [test: 'this is a test']
-        ProcessingStep step = new ProcessingStep()
-        step.metadata.producedBy = 'Test code'
+        View view = new View()
+        view.metadata.producedBy = 'Test code'
         def a = new Annotation()
         a.id = 'a12'
         a.start = 0
         a.end = 5
         a.label = 'Token'
+        a.atType = 'Token'
+        a.type = 'Lapps:TextAnnotation'
         a.features.pos = 'NN'
         a.features.lemma = 'hello'
-        step.annotations.add a
-        container.steps.add step
+        view.annotations.add a
+        container.views.add view
 
         String json = container.toPrettyJson()
 
         container = new Container(json)
-        assertTrue(container.steps.size() == 1)
-        step = container.steps[0]
-        assertTrue(step.annotations.size() == 1)
-        a = step.annotations[0]
+        assertTrue(container.views.size() == 1)
+        view = container.views[0]
+        assertTrue(view.annotations.size() == 1)
+        a = view.annotations[0]
         assertTrue(a.label == 'Token')
-        assertTrue(a.type == 'Token')
+        assertTrue(a.type == 'Lapps:TextAnnotation')
+//        assertTrue(a.type == 'Token')
         println json
     }
 
@@ -140,9 +155,9 @@ class ContainerTest {
                 '@type': '@id'
         ]
         container.text = 'hello world'
-        def step = new ProcessingStep()
+        def view = new View()
         def a = new Annotation()
-        a.type = 'morpheme'
+        a.label = 'morpheme'
         a.id = "m1"
         a.start = 0
         a.end = 5
@@ -187,11 +202,7 @@ class ContainerTest {
         assertNotNull(url.text)
     }
 
-    @Test
-    public void testTestFile() {
-        String json = ResourceLoader.loadString('test_file.json')
-        Container container = new Container(json)
-//        println container.toPrettyJson()
-        assertNotNull("Container text is null.", container.text)
+    private String getResource(String name) {
+        return this.class.getResource(name).getText('UTF-8')
     }
 }
