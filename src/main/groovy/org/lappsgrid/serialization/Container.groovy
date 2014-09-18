@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
  * @author Keith Suderman
  */
 //@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-@JsonPropertyOrder(["context","metadata","text","steps"])
+@JsonPropertyOrder(["context","metadata","text","views"])
 public class Container {
 
     public enum ContextType {
@@ -42,15 +42,14 @@ public class Container {
     /** The text that is to be annotated. */
     @JsonProperty('text')
     Content content;
-//    Map<String,String> content = [:]
 
     /** Any meta-data attached to this container. */
-    Map metadata // = [:]
+    Map metadata
 
     /** The list of annotations that have been created for the text. */
-    List<ProcessingStep> steps // = []
+    List<View> views
 
-    private final ObjectMapper mapper; // = new ObjectMapper();
+    private final ObjectMapper mapper;
 
     @JsonProperty("@context")
     Object context
@@ -69,7 +68,7 @@ public class Container {
         'type':['@id':'meta:type', '@type':'@id'],
         'version':'meta:version',
         'text':'lif:text',
-        'steps': 'lif:steps',
+        'views': 'lif:views',
         'annotations': 'lif:annotations',
         'tokenization': 'types:tokenization/',
         'tagset': 'types:posType/',
@@ -81,6 +80,7 @@ public class Container {
         "common": "http://vocab.lappsgrid.org/Annotation#",
         "id":"common:id",
         "start":"common:start",
+        "label":"common:label",
         "end":"common:end",
         "pos":"token:pos",
         "lemma":"token:lemma",
@@ -98,7 +98,7 @@ public class Container {
         content = new Content()
         mapper = new ObjectMapper()
         metadata = new HashMap<String,Object>();
-        steps = new ArrayList<ProcessingStep>()
+        views = new ArrayList<View>()
         if (type == ContextType.LOCAL) {
             context = LOCAL_CONTEXT
         }
@@ -112,7 +112,7 @@ public class Container {
         content = new Content()
         mapper = new ObjectMapper()
         metadata = new HashMap<String,Object>();
-        steps = new ArrayList<ProcessingStep>()
+        views = new ArrayList<View>()
         if (local) {
             context = LOCAL_CONTEXT
         }
@@ -134,7 +134,7 @@ public class Container {
         Container proxy = mapper.readValue(json, Container.class)
         this.content = proxy.content
         this.metadata = proxy.metadata
-        this.steps = proxy.steps
+        this.views = proxy.views
         this.context = proxy.context
     }
 
@@ -158,19 +158,19 @@ public class Container {
         return this.content.value
     }
 
-    ProcessingStep newStep() {
-        ProcessingStep step = new ProcessingStep();
-        steps.add(step)
-        return step
+    View newView() {
+        View view = new View();
+        views.add(view)
+        return view
     }
 
-    void addStep(ProcessingStep step) {
-        this.steps << step
+    void addView(View view) {
+        this.views << view
     }
 
-    ProcessingStep getStep(int index) {
-        if (index >= 0 && index < steps.si()) {
-        return steps[index]
+    View getView(int index) {
+        if (index >= 0 && index < views.si()) {
+            return views[index]
         }
         return null
     }
@@ -183,9 +183,6 @@ public class Container {
     Object getMetadata(String name) {
         return this.metadata[name]
     }
-
-//    private Content getContent() { return null }
-//    private void setContent(Content ignored) { }
 
     void define(String name, String iri) throws LappsIOException
     {
@@ -210,12 +207,10 @@ public class Container {
     String toPrettyJson() {
         mapper.enable(SerializationFeature.INDENT_OUTPUT)
         return mapper.writeValueAsString(this)
-        //return new JsonLd(this).toPrettyString()
     }
 
     /** Calls toPrettyJson() */
     String toString() {
-        //return new JsonLd(this).toPrettyString()
         return toJson()
     }
 
@@ -224,15 +219,15 @@ public class Container {
         map.metadata.each { name, value ->
             this.metadata[name] = value
         }
-        map.steps.each { step ->
-            ProcessingStep processingStep = new ProcessingStep()
-            step.metadata.each { key,value ->
-                processingStep.metadata[key] = value
+        map.views.each { v ->
+            View view = new View()
+            v.metadata.each { key,value ->
+                view.metadata[key] = value
             }
-            step.annotations.each { annotation ->
-                processingStep.annotations << new Annotation(annotation)
+            v.annotations.each { annotation ->
+                view.annotations << new Annotation(annotation)
             }
-            this.steps << processingStep
+            this.views << view
         }
     }
 
