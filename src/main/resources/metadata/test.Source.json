@@ -1,0 +1,9 @@
+{
+  "$schema" : "http://vocab.lappsgrid.org/schema/datasource-1.0.0",
+  "name" : "test.Source",
+  "vendor" : "anc",
+  "allow" : "http://vocab.lappsgrid.org/ns/allow#any",
+  "language" : [ "en" ],
+  "format" : [ ],
+  "encoding" : ""
+}
