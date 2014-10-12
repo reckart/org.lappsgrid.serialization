@@ -30,8 +30,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
  *
  * @author Keith Suderman
  */
-@JsonPropertyOrder(['metadata', 'annotations'])
+@JsonPropertyOrder(['id', 'metadata', 'annotations'])
 public class View {
+    /**
+     * A unique ID value for this view.
+     */
+    String id
+
     /**
      * User defined metadata for this processing step.
      */

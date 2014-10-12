@@ -169,7 +169,7 @@ public class Container {
     }
 
     View getView(int index) {
-        if (index >= 0 && index < views.si()) {
+        if (index >= 0 && index < views.size()) {
             return views[index]
         }
         return null
