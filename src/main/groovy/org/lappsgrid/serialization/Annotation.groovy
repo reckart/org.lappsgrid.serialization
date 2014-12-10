@@ -48,6 +48,7 @@ public class Annotation {
 
     /** The start offset of the annotation. */
     Long start = null
+
     /** The end offset of the annotation. */
     Long end = null
 

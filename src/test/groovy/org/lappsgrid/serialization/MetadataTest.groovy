@@ -4,7 +4,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-//import org.lappsgrid.vocabulary.Contents
+import org.lappsgrid.vocabulary.Contents
 
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
@@ -31,7 +31,7 @@ class MetadataTest {
 
     @Test
     void parseMetadata() {
-        Container c = new Container(json)
+        Container c = Serializer.parse(json, Container) // new Container(json)
         assertTrue(c.text == 'Fido barks.')
         assertTrue(c.language == 'en')
         assertTrue(c.views.size() == 1)
@@ -40,16 +40,17 @@ class MetadataTest {
         def info = c.views[0].metadata.contains
         assertNotNull(info.tokens)
         assertNotNull(info.pos)
-        println c.toPrettyJson()
+        println Serializer.toPrettyJson(c) // c.toPrettyJson()
     }
 
     @Test
     void addMetadataTest() {
         Container c1 = new Container(false)
         c1.setMetadata("test", "value")
-        Container c2 = new Container(c1.toJson())
+        String json = Serializer.toJson(c1)
+        Container c2 = Serializer.parse(json, Container) // new Container(c1.toJson())
         assertTrue("value" == c2.getMetadata("test"))
-        println c2.toPrettyJson()
+        println Serializer.toPrettyJson(c2) // c2.toPrettyJson()
     }
 
     @Ignore

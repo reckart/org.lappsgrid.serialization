@@ -49,7 +49,7 @@ public class Container {
     /** The list of annotations that have been created for the text. */
     List<View> views
 
-    private final ObjectMapper mapper;
+//    private final ObjectMapper mapper;
 
     @JsonProperty("@context")
     Object context
@@ -94,9 +94,9 @@ public class Container {
         this(ContextType.REMOTE)
     }
 
-    public Container(ContextType type) {
+    protected Container(ContextType type) {
         content = new Content()
-        mapper = new ObjectMapper()
+//        mapper = new ObjectMapper()
         metadata = new HashMap<String,Object>();
         views = new ArrayList<View>()
         if (type == ContextType.LOCAL) {
@@ -105,38 +105,38 @@ public class Container {
         else {
             context = REMOTE_CONTEXT
         }
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    public Container(boolean local) {
-        content = new Content()
-        mapper = new ObjectMapper()
-        metadata = new HashMap<String,Object>();
-        views = new ArrayList<View>()
-        if (local) {
-            context = LOCAL_CONTEXT
-        }
-        else {
-            context = REMOTE_CONTEXT
-        }
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
+//    public Container(boolean local) {
+//        content = new Content()
+//        mapper = new ObjectMapper()
+//        metadata = new HashMap<String,Object>();
+//        views = new ArrayList<View>()
+//        if (local) {
+//            context = LOCAL_CONTEXT
+//        }
+//        else {
+//            context = REMOTE_CONTEXT
+//        }
+//        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//    }
 
-    /** Constructs a Container object from the values stored in the Map. */
-    public Container(boolean local, Map map) {
-        this(local)
-        initFromMap(map)
-    }
-
-    /** Constructs a Container object from the JSON representation. */
-    public Container(String json) {
-        this(ContextType.REMOTE)
-        Container proxy = mapper.readValue(json, Container.class)
-        this.content = proxy.content
-        this.metadata = proxy.metadata
-        this.views = proxy.views
-        this.context = proxy.context
-    }
+//    /** Constructs a Container object from the values stored in the Map. */
+//    public Container(boolean local, Map map) {
+//        this(local)
+//        initFromMap(map)
+//    }
+//
+//    /** Constructs a Container object from the JSON representation. */
+//    public Container(String json) {
+//        this(ContextType.REMOTE)
+//        Container proxy = mapper.readValue(json, Container.class)
+//        this.content = proxy.content
+//        this.metadata = proxy.metadata
+//        this.views = proxy.views
+//        this.context = proxy.context
+//    }
 
     @JsonIgnore
     void setLanguage(String lang) {
@@ -198,37 +198,37 @@ public class Container {
         ]
     }
 
-    String toJson() {
-        mapper.disable(SerializationFeature.INDENT_OUTPUT)
-        return mapper.writeValueAsString(this)
-        //return new JsonLd(this).toString()
-    }
+//    String toJson() {
+//        mapper.disable(SerializationFeature.INDENT_OUTPUT)
+//        return mapper.writeValueAsString(this)
+//        //return new JsonLd(this).toString()
+//    }
+//
+//    String toPrettyJson() {
+//        mapper.enable(SerializationFeature.INDENT_OUTPUT)
+//        return mapper.writeValueAsString(this)
+//    }
+//
+//    /** Calls toJson() */
+//    String toString() {
+//        return toJson()
+//    }
 
-    String toPrettyJson() {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT)
-        return mapper.writeValueAsString(this)
-    }
-
-    /** Calls toPrettyJson() */
-    String toString() {
-        return toJson()
-    }
-
-    private void initFromMap(Map map) {
-        this.text = map.text
-        map.metadata.each { name, value ->
-            this.metadata[name] = value
-        }
-        map.views.each { v ->
-            View view = new View()
-            v.metadata.each { key,value ->
-                view.metadata[key] = value
-            }
-            v.annotations.each { annotation ->
-                view.annotations << new Annotation(annotation)
-            }
-            this.views << view
-        }
-    }
+//    private void initFromMap(Map map) {
+//        this.text = map.text
+//        map.metadata.each { name, value ->
+//            this.metadata[name] = value
+//        }
+//        map.views.each { v ->
+//            View view = new View()
+//            v.metadata.each { key,value ->
+//                view.metadata[key] = value
+//            }
+//            v.annotations.each { annotation ->
+//                view.annotations << new Annotation(annotation)
+//            }
+//            this.views << view
+//        }
+//    }
 
 }
