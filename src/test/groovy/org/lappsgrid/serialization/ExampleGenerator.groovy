@@ -1,5 +1,8 @@
 package org.lappsgrid.serialization
 
+import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
+import org.lappsgrid.serialization.lif.View
 import org.lappsgrid.vocabulary.Annotations
 
 /**
@@ -60,7 +63,8 @@ class ExampleGenerator {
         container.addView(tokens)
         container.addView(sentences)
 
-        println container.toPrettyJson()
+
+        println Serializer.toPrettyJson(container)
     }
     Annotation token(long start, long end, Map features) {
         Annotation a = new Annotation()

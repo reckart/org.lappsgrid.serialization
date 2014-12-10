@@ -1,7 +1,7 @@
 package org.lappsgrid.serialization
 
 import org.junit.*
-import org.lappsgrid.serialization.ValueObject
+import org.lappsgrid.serialization.lif.ValueObject
 
 import static org.junit.Assert.*
 

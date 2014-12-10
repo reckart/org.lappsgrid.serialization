@@ -1,6 +1,6 @@
 package org.lappsgrid.serialization.datasource
 
-import org.lappsgrid.serialization.Token
+import org.lappsgrid.serialization.aas.Token
 import org.lappsgrid.discriminator.Constants
 
 /**

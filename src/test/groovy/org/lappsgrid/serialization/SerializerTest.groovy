@@ -1,6 +1,7 @@
 package org.lappsgrid.serialization
 
 import org.junit.Test
+import org.lappsgrid.serialization.aas.Token
 import org.lappsgrid.serialization.datasource.Get
 
 import static org.junit.Assert.*
@@ -44,14 +45,4 @@ class SerializerTest {
         assertTrue "Lifetimes do not match", before.lifetime == after.lifetime
     }
 
-    class TokenFactory {
-        public static Token create() {
-            Token token = new Token()
-            token.uuid = UUID.randomUUID().toString()
-            token.issuer = "http://www.anc.org"
-            token.timestamp = System.currentTimeMillis()
-            token.lifetime = TimeUnit.DAYS.toMillis(1L)
-            return token
-        }
-    }
 }

@@ -4,6 +4,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
+import org.lappsgrid.serialization.lif.Contains
+import org.lappsgrid.serialization.lif.View
 import org.lappsgrid.vocabulary.Contents
 
 import static org.junit.Assert.assertNotNull

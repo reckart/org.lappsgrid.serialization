@@ -1,4 +1,4 @@
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.aas
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.databind.ObjectMapper

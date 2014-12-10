@@ -1,12 +1,4 @@
 package org.lappsgrid.serialization.aas
-
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import org.lappsgrid.serialization.Token
-
-import java.lang.reflect.Field
-import java.lang.reflect.Modifier
-
 /**
  * @author Keith Suderman
  */

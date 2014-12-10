@@ -14,24 +14,30 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * The Content object is a JSON "value object", that is, a JSON object with a @value
- * field. The optional @language field is also included.
+ * A JSON-LD <a href="http://www.w3.org/TR/json-ld/#dfn-value-object">value object</a>.
  * <p>
- *
+ * While a value object may contains other keys, for our purposes we only need
+ * the <i>value</i> and <i>type</i> keys.
+ * <p>
+ * This class isn't currently used anywhere anymore.
  * @author Keith Suderman
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Content {
+class ValueObject {
     @JsonProperty('@value')
     String value
-    @JsonProperty('@language')
-    String language
+    @JsonProperty('@type')
+    String type
 
-    public Content() { }
+    public ValueObject() { }
+
+    public ValueObject(String type, String value)
+    {
+        this.type = type;
+        this.value = value;
+    }
 }
