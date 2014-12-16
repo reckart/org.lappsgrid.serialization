@@ -40,4 +40,12 @@ class ValueObject {
         this.type = type;
         this.value = value;
     }
+
+    public ValueObject(Map map) {
+        if (map == null) {
+            return
+        }
+        this.type = map['type']
+        this.value = map['value']
+    }
 }

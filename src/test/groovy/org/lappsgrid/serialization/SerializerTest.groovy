@@ -6,8 +6,6 @@ import org.lappsgrid.serialization.datasource.Get
 
 import static org.junit.Assert.*
 
-import java.util.concurrent.TimeUnit
-
 /**
  * @author Keith Suderman
  */
@@ -16,7 +14,7 @@ class SerializerTest {
     @Test
     void tokenTest() {
         println "SerializerTest.tokenTest"
-        Token before = TokenFactory.create()
+        Token before = TokenFactory.createToken()
         String json = Serializer.toJson(before)
         Token after = Serializer.parse(json, Token)
 
@@ -27,7 +25,7 @@ class SerializerTest {
     @Test
     void getTest() {
         println "SerializerTest.getTest"
-        Token beforeToken = TokenFactory.create()
+        Token beforeToken = TokenFactory.createToken()
         Get before = new Get(beforeToken, "key")
         String json = Serializer.toJson(before)
         Get after = Serializer.parse(json, Get)

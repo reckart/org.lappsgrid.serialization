@@ -17,7 +17,7 @@ class DataSourceTest {
     void testGet() {
         println "DataSourceTest.testGet"
         String key = 'MASC3-0001'
-        Token token = TokenFactory.create();
+        Token token = TokenFactory.createToken();
         Get before = new Get(token, key)
         String json = Serializer.toPrettyJson(before)
 //        println json
@@ -31,17 +31,17 @@ class DataSourceTest {
     @Test
     void testList() {
         println "DataSourceTest.testList"
-        List before = new List(TokenFactory.create())
+        List before = new List(TokenFactory.createToken())
         String json = Serializer.toPrettyJson(before)
-//        println json
+        println json
         List after = Serializer.parse(json, List)
         assertTrue after.discriminator == Constants.Uri.LIST
         assertTrue after.discriminator == before.discriminator
         compareTokens(before.token, after.token)
-        assertTrue after.start == -1
-        assertTrue after.end == -1
-        assertTrue before.start == after.start
-        assertTrue before.end == after.end
+        assertTrue after.payload.start == -1
+        assertTrue after.payload.end == -1
+        assertTrue before.payload.start == after.payload.start
+        assertTrue before.payload.end == after.payload.end
     }
 
     @Test
@@ -49,12 +49,35 @@ class DataSourceTest {
         int start = 1
         int end = 2
         println "DataSourceTest.testListIndexed"
-        List before = new List(TokenFactory.create(), start, end)
+        List before = new List(TokenFactory.createToken(), start, end)
         String json = Serializer.toPrettyJson(before)
         List after = Serializer.parse(json, List)
         assertTrue after.discriminator == Constants.Uri.LIST
         assertTrue before.discriminator == after.discriminator
         assertTrue before.token.uuid == after.token.uuid
+        assertTrue after.payload.start == start
+        assertTrue after.payload.end == end
+    }
+
+    @Test
+    void testAsMap() {
+        println "DataSourceTest.testAsMap"
+        int start = 1
+        int end = 2
+        Get before = new Get(TokenFactory.createToken(), 'key')
+        String json = Serializer.toPrettyJson(before)
+        Map map = Serializer.parse(json, Map)
+        if (map.discriminator) {
+            if (map.discriminator == Constants.Uri.GET) {
+                println "This is a GET object"
+            }
+            else {
+                println "This is a ${map.discriminator}"
+            }
+        }
+        else {
+            println "discriminator is null."
+        }
 
     }
 

@@ -62,6 +62,13 @@ public class Annotation {
 
     public Annotation() { }
 
+    public Annotation(String id, String label, long start, long end) {
+        this.id = id
+        this.label = label
+        this.start = start
+        this.end = end
+    }
+
     public Annotation(String label, long start, long end) {
         this.label = label
         this.start = start

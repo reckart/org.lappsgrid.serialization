@@ -43,4 +43,15 @@ class Contains {
      * The annotation type.
      */
     String type;
+
+    public Contains() { }
+
+    public Contains(Map map) {
+        if (map == null) {
+            return
+        }
+        this.url = map['url']
+        this.producer = map['producer']
+        this.type = map['type']
+    }
 }

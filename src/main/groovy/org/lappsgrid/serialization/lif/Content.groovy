@@ -34,4 +34,9 @@ public class Content {
     String language
 
     public Content() { }
+
+//    public Content(Map map) {
+//        this.value = map['value']
+//        this.language = map['language']
+//    }
 }
