@@ -1,7 +1,13 @@
 LAPPS Exchange Data Structures (LEDS).
 ======================================
 
-The LAPPS Exchange Data Structures are a set of Java classes (Groovy classes
+### Build Status
+
+[![Master build status](http://grid.anc.org:9080/travis/svg/lapps/org.lappsgrid.serialization?branch=master)](https://travis-ci.org/lapps/org.lappsgrid.serialization)
+[![Develop build status](http://grid.anc.org:9080/travis/svg/lapps/org.lappsgrid.serialization?branch=develop)](https://travis-ci.org/lapps/org.lappsgrid.serialization)
+[![Feature build status](http://grid.anc.org:9080/travis/svg/lapps/org.lappsgrid.serialization?branch=feature%2Fsimple-api)](https://travis-ci.org/lapps/org.lappsgrid.serialization)
+
+The LAPPS Exchange Data Structures are a small set of Java classes (Groovy classes 
 actually) that provide the data model for the JSON-LD data exchanged by services on the
 LAPPS grid. 
 

@@ -1,0 +1,9 @@
+{
+  "$schema" : "http://vocab.lappsgrid.org/schema/metadata-1.0.0",
+  "name" : "test.Base",
+  "allow" : "http://ns.lappsgrid.org/1.0/allow#any",
+  "requires" : { },
+  "produces" : {
+    "format" : [ "application/xml; profile=http://gate.ac.uk" ]
+  }
+}
