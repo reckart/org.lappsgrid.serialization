@@ -1,9 +1,9 @@
 package org.lappsgrid.serialization
 
+import org.lappsgrid.discriminator.Constants
 import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.View
-import org.lappsgrid.vocabulary.Annotations
 
 /**
  * @author Keith Suderman
@@ -17,7 +17,7 @@ class ExampleGenerator {
         Container container = new Container()
         container.language = 'en'
         container.text = 'Hello world'
-        println container.toPrettyJson()
+        println Serializer.toPrettyJson(container)
     }
 
     void example2() {
@@ -26,20 +26,20 @@ class ExampleGenerator {
         //                012345678901
         container.text = 'Hello world.'
         View tokens = new View()
-        tokens.addContains('Token', this.class.name, Annotations.TOKEN)
+        tokens.addContains('Token', this.class.name, Constants.Uri.TOKEN)
         tokens.annotations << token(0, 5, [pos:'UH',lemma:'hello',string:'hello'])
         tokens.annotations << token(6, 11, [pos:'NN',lemma:'world',string:'world'])
         tokens.annotations << token(11, 12, [pos:'PUNCT',string:'.'])
 
         View sentences = new View()
-        sentences.addContains('Sentence', this.class.name, Annotations.SENTENCE)
+        sentences.addContains('Sentence', this.class.name, Constants.Uri.SENTENCE)
         Annotation sentence = new Annotation(id:'s1', start:0, end:12, label:'Sentence')
         sentences.add(sentence)
 
         container.addView(tokens)
         container.addView(sentences)
 
-        println container.toPrettyJson()
+        println Serializer.toPrettyJson(container)
     }
 
     void example3() {
@@ -66,6 +66,7 @@ class ExampleGenerator {
 
         println Serializer.toPrettyJson(container)
     }
+
     Annotation token(long start, long end, Map features) {
         Annotation a = new Annotation()
         ++tokenCounter

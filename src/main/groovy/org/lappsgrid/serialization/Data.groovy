@@ -1,5 +1,6 @@
 package org.lappsgrid.serialization
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.lappsgrid.serialization.aas.Token
 
 /**
@@ -8,6 +9,7 @@ import org.lappsgrid.serialization.aas.Token
 public class Data<T> {
     String discriminator
     T payload
+    Map parameters
 
     public Data() {
 
@@ -26,6 +28,20 @@ public class Data<T> {
     public Data(Map map) {
         this.discriminator = map.discriminator
         this.payload = map.payload
+        this.parameters = map.parameters
+    }
+
+    @JsonIgnore
+    public void setParameter(String name, Object value) {
+        if (!parametesr) {
+            parameters = [:]
+        }
+        parameters[name] = value
+    }
+
+    @JsonIgnore
+    public Object getParameter(String name) {
+        return parameters?.get(name)
     }
 
     public String asJson()

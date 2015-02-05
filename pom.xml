@@ -64,12 +64,14 @@
             <version>${ivy.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>vocabulary</artifactId>
             <version>${lapps.vocabulary.version}</version>
             <scope>test</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>org.lappsgrid.experimental</groupId>
             <artifactId>discriminator</artifactId>

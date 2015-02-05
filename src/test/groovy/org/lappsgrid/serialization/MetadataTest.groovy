@@ -8,7 +8,6 @@ import org.lappsgrid.serialization.lif.Annotation
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.lif.Contains
 import org.lappsgrid.serialization.lif.View
-import org.lappsgrid.vocabulary.Contents
 
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
@@ -70,13 +69,13 @@ class MetadataTest {
         tokens.with {
             url = 'http://grid.anc.org:8080/service_manager/invoker/anc:gate.tokenizer_1.3.4'
             producer = 'org.anc.lapps.gate.tokenizer'
-            type = Contents.Tokenizations.ANNIE
+            type = "tokenization:gate"
         }
         def pos = new Contains()
         pos.with {
             url = 'http://grid.anc.org:8080/service_manager/invoker/anc:gate.tagger_1.3.4'
             producer = 'org.anc.lapps.gate.Tagger'
-            type = Contents.TagSets.GATE
+            type = "tagset:penn"
         }
 //        def sentences = new Contains()
 //        sentences.with {
@@ -97,7 +96,7 @@ class MetadataTest {
         }
         c.views.add(view)
         //println c.context
-        println c.toPrettyJson()
+        println Serializer.toPrettyJson(c)
     }
 
     @Ignore
@@ -126,7 +125,7 @@ class MetadataTest {
         view.metadata.contains = contains
         c.views.add(view)
         //println c.context
-        println c.toPrettyJson()
+        println Serializer.toPrettyJson(c)
     }
 
     Annotation makeAnnotation(String name, int start, int end, Map features) {
