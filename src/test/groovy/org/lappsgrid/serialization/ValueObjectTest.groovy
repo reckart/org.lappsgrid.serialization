@@ -30,4 +30,15 @@ class ValueObjectTest {
         assertTrue('type' == object.type)
         assertTrue('value' == object.value)
     }
+
+    @Test
+    void testSerializer() {
+        ValueObject before = new ValueObject('type', 'value')
+        String json = Serializer.toJson(before)
+        ValueObject after = Serializer.parse(json, ValueObject)
+        assertTrue before.type == 'type'
+        assertTrue before.value == 'value'
+        assertTrue before.type == after.type
+        assertTrue before.value == after.value
+    }
 }

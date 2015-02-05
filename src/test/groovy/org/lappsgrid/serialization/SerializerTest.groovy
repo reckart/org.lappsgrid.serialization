@@ -12,35 +12,14 @@ import static org.junit.Assert.*
 class SerializerTest {
 
     @Test
-    void tokenTest() {
-        println "SerializerTest.tokenTest"
-        Token before = TokenFactory.createToken()
-        String json = Serializer.toJson(before)
-        Token after = Serializer.parse(json, Token)
-
-        compareTokens(before, after)
-        println Serializer.toPrettyJson(after)
-    }
-
-    @Test
     void getTest() {
         println "SerializerTest.getTest"
-        Token beforeToken = TokenFactory.createToken()
-        Get before = new Get(beforeToken, "key")
+        Get before = new Get("key")
         String json = Serializer.toJson(before)
         Get after = Serializer.parse(json, Get)
-        compareTokens(before.token, after.token)
         assertTrue "Discriminators do not match", before.discriminator == after.discriminator
         assertTrue "Keys do not match", before.key == after.key
         println Serializer.toPrettyJson(after)
     }
-
-
-    void compareTokens(Token before, Token after) {
-        assertTrue "UUIDs do not match", before.uuid == after.uuid
-        assertTrue "Issuers do not match", before.issuer == after.issuer
-        assertTrue "Timestamps do not match", before.timestamp == after.timestamp
-        assertTrue "Lifetimes do not match", before.lifetime == after.lifetime
-    }
-
+    
 }

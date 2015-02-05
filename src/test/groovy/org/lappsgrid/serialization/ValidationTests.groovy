@@ -6,7 +6,6 @@ import org.anc.json.validator.Validator
 import org.junit.*
 import org.lappsgrid.serialization.aas.Token
 import org.lappsgrid.serialization.datasource.Get
-import org.lappsgrid.serialization.datasource.GetMetadata
 import org.lappsgrid.serialization.datasource.List
 import org.lappsgrid.serialization.lif.Container
 import org.lappsgrid.serialization.service.Execute
@@ -19,58 +18,40 @@ import static org.junit.Assert.*
 class ValidationTests {
 
     @Test
-    void validateToken() {
-        Token token = TokenFactory.createToken()
-        String json = Serializer.toJson(token)
-        validate(json, 'token.json')
-    }
-
-    @Test
     void validateGet() {
-        Token token = TokenFactory.createToken()
-        String json = Serializer.toPrettyJson(new Get(token, "key"))
-        validate(json, "action/get.json")
+//        String json = Serializer.toPrettyJson(new Get(token, "key"))
+        String json = new Get("key").asJson()
+        validate(json, "action/get-schema.json")
     }
 
     @Test
     void validateListNoArgs() {
-        Token token = TokenFactory.createToken()
-        String json = Serializer.toPrettyJson(new List(token))
-        validate(json, "action/list.json")
+        String json = Serializer.toPrettyJson(new List())
+        validate(json, "action/list-schema.json")
     }
 
     @Test
     void  validateListWithArgs() {
         final int start = 1
         final int end = 2
-        Token token = TokenFactory.createToken()
-        List list = new List(token, start, end)
-        String json = Serializer.toPrettyJson(list)
-        validate(json, 'action/list.json')
+        List list = new List(start, end)
+//        String json = Serializer.toPrettyJson(list)
+        validate(list.asJson(), 'action/list-schema.json')
     }
 
     @Test
     void validateExecute() {
-        Token token = TokenFactory.createToken()
         Container container = ContainerFactory.createContainer()
-        Execute execute = new Execute(token, container)
-        String json = Serializer.toPrettyJson(execute)
-        validate(json, "action/execute.json")
-    }
-
-    @Test
-    void validateGetMetadata() {
-        Token token = TokenFactory.createToken()
-        GetMetadata get = new GetMetadata(token)
-        String json = Serializer.toPrettyJson(get)
-        validate(json, "action/getmetadata.json")
+        Execute execute = new Execute(container)
+//        String json = Serializer.toPrettyJson(execute)
+        validate(execute.asJson(), "action/execute-schema.json")
     }
 
     @Test
     void validateContainer() {
         Container container = ContainerFactory.createContainer()
         String json = Serializer.toPrettyJson(container)
-        validate(json, "lif.json")
+        validate(json, "lif-schema.json")
     }
 
     void validate(String json, String schemaName) {

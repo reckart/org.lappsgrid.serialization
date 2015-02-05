@@ -22,16 +22,37 @@ class Serializer {
     private Serializer() {}
 
     public static <T> T parse(String json, Class<T> theClass) {
-        return (T) mapper.readValue(json, theClass)
+        T result = null
+        try {
+            result = (T) mapper.readValue(json, theClass)
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace()
+            // Ignored. We return null to indicate an error.
+        }
+        return result;
     }
 
     public static String toJson(Object object)
     {
-        mapper.writeValueAsString(object)
+        try {
+            return mapper.writeValueAsString(object)
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     public static String toPrettyJson(Object object)
     {
-        prettyPrinter.writeValueAsString(object)
+        try {
+            return prettyPrinter.writeValueAsString(object)
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 }

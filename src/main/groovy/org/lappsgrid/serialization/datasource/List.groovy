@@ -12,15 +12,11 @@ class List extends Data<Offsets> {
 
     public List() {
         super(Constants.Uri.LIST)
+        this.payload = new Offsets();
     }
 
-    public List(Token token) {
-        super(Constants.Uri.LIST, token)
-        this.payload = new Offsets()
-    }
-
-    public List(Token token, int start, int end) {
-        super(Constants.Uri.LIST, token)
+    public List(int start, int end) {
+        super(Constants.Uri.LIST)
         this.payload = new Offsets(start, end)
     }
 

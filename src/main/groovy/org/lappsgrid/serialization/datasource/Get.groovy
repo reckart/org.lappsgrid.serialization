@@ -14,8 +14,8 @@ class Get extends Data<String> {
         super(Constants.Uri.GET)
     }
 
-    public Get(Token token, String key) {
-        super(Constants.Uri.GET, token, key)
+    public Get(String key) {
+        super(Constants.Uri.GET, key)
     }
 
     @JsonIgnore

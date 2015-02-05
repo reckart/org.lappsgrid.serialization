@@ -1,7 +1,7 @@
 LAPPS Exchange Data Structures (LEDS).
 ======================================
 
-The LAPPS Exchange Data Structures are a set of Java classes (Groovy classes 
+The LAPPS Exchange Data Structures are a set of Java classes (Groovy classes
 actually) that provide the data model for the JSON-LD data exchanged by services on the
 LAPPS grid. 
 

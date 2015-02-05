@@ -13,7 +13,4 @@ class Size extends Data<Void> {
         super(Constants.Uri.SIZE)
     }
 
-    public Size(Token token) {
-        super(Constants.Uri.SIZE, token)
-    }
 }

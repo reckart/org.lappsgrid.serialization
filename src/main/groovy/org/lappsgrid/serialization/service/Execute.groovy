@@ -9,11 +9,8 @@ import org.lappsgrid.serialization.lif.Container
  * @author Keith Suderman
  */
 class Execute extends Data<Container> {
-    Container payload
-
     public Execute() { }
-    public Execute(Token token, Container container) {
-        super(Constants.Uri.EXECUTE, token)
-        this.payload = container
+    public Execute(Container container) {
+        super(Constants.Uri.JSON_LD, container)
     }
 }

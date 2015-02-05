@@ -24,6 +24,7 @@ class MetadataTest {
 
     @Before
     void setup() {
+
         json = this.class.getResource('metadata.json').text
         id = 0
     }
@@ -36,6 +37,7 @@ class MetadataTest {
     @Test
     void parseMetadata() {
         Container c = Serializer.parse(json, Container) // new Container(json)
+        assertNotNull "Unable to parser json", c
         assertTrue(c.text == 'Fido barks.')
         assertTrue(c.language == 'en')
         assertTrue(c.views.size() == 1)

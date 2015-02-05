@@ -71,7 +71,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.lappsgrid</groupId>
+            <groupId>org.lappsgrid.experimental</groupId>
             <artifactId>discriminator</artifactId>
             <version>${lapps.discriminator.version}</version>
         </dependency>

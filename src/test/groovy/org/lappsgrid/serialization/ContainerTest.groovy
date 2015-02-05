@@ -49,8 +49,6 @@ class ContainerTest {
         println "ContainerTest.testPrettyJson"
         Container original = new Container();
         original.text = getResource(INPUT_FILE_NAME)
-//        TEST_FILE.text = original.toPrettyJson()
-//        FileUtils.write(TEST_FILE, original.toPrettyJson());
         TEST_FILE.withWriter('UTF-8') {
             it.write(Serializer.toPrettyJson(original))
             it.flush()
@@ -58,11 +56,8 @@ class ContainerTest {
         }
 
 
-//        final String json = FileUtils.read(TEST_FILE);
         final String json = TEST_FILE.getText('UTF-8')
-        //println json
         Container copy = Serializer.parse(json, Container);
-        //println copy.toPrettyJson()
         assertTrue(original.text == copy.text)
     }
 
@@ -72,18 +67,13 @@ class ContainerTest {
         println "ContainerTest.testJson"
         final Container original = new Container()
         original.text = getResource(INPUT_FILE_NAME)
-//        TEST_FILE.text = original.toJson()
         TEST_FILE.withWriter('UTF-8') {
             it.write(Serializer.toJson(original))
             it.flush()
             it.close()
         }
         final String json = TEST_FILE.getText('UTF-8')
-        //println json
         Container copy = Serializer.parse(json, Container)
-        //println copy.toPrettyJson()
-//        println original.text
-//        println copy.text
         assertTrue(original.text == copy.text)
     }
 
@@ -108,12 +98,9 @@ class ContainerTest {
         assertNotNull container.metadata.list
         assertTrue container.metadata.list instanceof List
         assertTrue container.metadata.list.size() == 5
-//        (0..4).each { i ->
-//            assertTrue container.metadata.list[i] == i
-//        }
         assertTrue container.metadata.list[0] == 0
         assertTrue container.metadata.list[4] == 4
-        println Serializer.toPrettyJson(container)
+//        println Serializer.toPrettyJson(container)
     }
 
     @Test
@@ -145,7 +132,6 @@ class ContainerTest {
         a = view.annotations[0]
         assertTrue(a.label == 'Token')
         assertTrue(a.type == 'Lapps:TextAnnotation')
-//        assertTrue(a.type == 'Token')
         println json
     }
 

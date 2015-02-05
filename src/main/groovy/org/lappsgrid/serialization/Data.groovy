@@ -7,22 +7,34 @@ import org.lappsgrid.serialization.aas.Token
  */
 public class Data<T> {
     String discriminator
-    Token token
     T payload
 
     public Data() {
 
     }
 
-    public Data(String discriminator, Token token = null, T payload = null) {
+    public Data(String discriminator, T payload)
+    {
+        this.discriminator = discriminator;
+        this.payload = payload;
+    }
+
+    public Data(String discriminator) {
         this.discriminator = discriminator
-        this.token = token
-        this.payload = payload
     }
 
     public Data(Map map) {
         this.discriminator = map.discriminator
-        this.token = map.token
         this.payload = map.payload
+    }
+
+    public String asJson()
+    {
+        return Serializer.toJson(this);
+    }
+
+    public String asPrettyJson()
+    {
+        return Serializer.toPrettyJson(this);
     }
 }

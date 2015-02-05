@@ -8,18 +8,16 @@ import org.lappsgrid.discriminator.Constants
 class Error extends Data<String> {
 
     public Error() {
-        super(Constants.Uri.ERROR, null, "Unknown error.")
+        super(Constants.Uri.ERROR, "Unknown error.")
     }
 
     public Error(Map map) {
         this.discriminator = map['discriminator']
-        this.token = map['token']
         this.payload = map['payload']
     }
 
     public Error(String message) {
         this.discriminator = Constants.Uri.ERROR
-        this.token = null
         this.payload = message
     }
 }
