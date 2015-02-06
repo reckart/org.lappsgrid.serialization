@@ -14,21 +14,29 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 
 /**
- * A ProcessingStep consists of some metadata and a list of annotations.
+ * A View consists of some metadata and a list of annotations.
  * <p>
  * Each LAPPS processing service will generally place the annotations it generates in
- * its own ProcessingStep object.  This makes it easier to determine the annotations
+ * its own View object.  This makes it easier to determine the annotations
  * produces by each processor and to quickly extract that subset of annotations.
+ * <p>
+ * However, the concept of a View is meant to be very generic and can contain
+ * any arbitrary collection of annotations grouped with arbitrary metadata.
  *
  * @author Keith Suderman
  */
-@JsonPropertyOrder(['metadata', 'annotations'])
-public class ProcessingStep {
+@JsonPropertyOrder(['id', 'metadata', 'annotations'])
+public class View {
+    /**
+     * A unique ID value for this view.
+     */
+    String id
+
     /**
      * User defined metadata for this processing step.
      */
@@ -39,14 +47,25 @@ public class ProcessingStep {
      */
     List<Annotation> annotations
 
-    public ProcessingStep() {
+    public View() {
         metadata = [:]
         annotations = []
     }
 
-    public ProcessingStep(Map map) {
-        metadata = map.metadata
-        annotations = map.annotations
+    public View(Map map) {
+        if (map == null) {
+            return
+        }
+        this.id = map['id']
+        metadata = [:]
+        map.metadata.each { name, value ->
+            metadata[name] = value
+        }
+        //annotations = map.annotations
+        annotations = []
+        map.annotations.each { a ->
+            annotations << new Annotation(a)
+        }
     }
 
     /**
@@ -91,9 +110,12 @@ public class ProcessingStep {
     /**
      * Creates and returns a new Annotation.
      */
-    Annotation newAnnotation(String type, long start, long end) {
+    Annotation newAnnotation(String id, String type, long start=-1, long end=-1) {
         Annotation a = newAnnotation()
+        a.id = id
         a.setType(type)
+        a.setAtType(type)
+        a.setLabel(type)
         a.setStart(start)
         a.setEnd(end)
         return a

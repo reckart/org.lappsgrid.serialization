@@ -14,25 +14,20 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
+import org.lappsgrid.serialization.LappsIOException
 
 /**
- * Container objects associate a body of text with the annotations that have
- * been created for that text.
- * <p>
- * This is the object that will eventually be serialized over the wire.
+ * Container objects are the out wrapper for all LIF objects.
  *
  * @author Keith Suderman
  */
 //@JsonInclude(JsonInclude.Include.NON_DEFAULT)
-@JsonPropertyOrder(["context","metadata","text","steps"])
+@JsonPropertyOrder(["context","metadata","text","views"])
 public class Container {
 
     public enum ContextType {
@@ -42,21 +37,19 @@ public class Container {
     /** The text that is to be annotated. */
     @JsonProperty('text')
     Content content;
-//    Map<String,String> content = [:]
 
     /** Any meta-data attached to this container. */
-    Map metadata // = [:]
+    Map metadata
 
     /** The list of annotations that have been created for the text. */
-    List<ProcessingStep> steps // = []
-
-    private final ObjectMapper mapper; // = new ObjectMapper();
+    List<View> views
 
     @JsonProperty("@context")
     Object context
 
     public static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
 
+    //TODO Keeping the local context up to date is a never ending process.
     public static final Map LOCAL_CONTEXT = [
         '@vocab':'http://vocab.lappsgrid.org/',
         'meta':'http://vocab.lappsgrid.org/metadata/',
@@ -69,7 +62,7 @@ public class Container {
         'type':['@id':'meta:type', '@type':'@id'],
         'version':'meta:version',
         'text':'lif:text',
-        'steps': 'lif:steps',
+        'views': 'lif:views',
         'annotations': 'lif:annotations',
         'tokenization': 'types:tokenization/',
         'tagset': 'types:posType/',
@@ -81,6 +74,7 @@ public class Container {
         "common": "http://vocab.lappsgrid.org/Annotation#",
         "id":"common:id",
         "start":"common:start",
+        "label":"common:label",
         "end":"common:end",
         "pos":"token:pos",
         "lemma":"token:lemma",
@@ -94,48 +88,21 @@ public class Container {
         this(ContextType.REMOTE)
     }
 
-    public Container(ContextType type) {
+    protected Container(ContextType type) {
         content = new Content()
-        mapper = new ObjectMapper()
+//        mapper = new ObjectMapper()
         metadata = new HashMap<String,Object>();
-        steps = new ArrayList<ProcessingStep>()
+        views = new ArrayList<View>()
         if (type == ContextType.LOCAL) {
             context = LOCAL_CONTEXT
         }
         else {
             context = REMOTE_CONTEXT
         }
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    public Container(boolean local) {
-        content = new Content()
-        mapper = new ObjectMapper()
-        metadata = new HashMap<String,Object>();
-        steps = new ArrayList<ProcessingStep>()
-        if (local) {
-            context = LOCAL_CONTEXT
-        }
-        else {
-            context = REMOTE_CONTEXT
-        }
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
-
-    /** Constructs a Container object from the values stored in the Map. */
-    public Container(boolean local, Map map) {
-        this(local)
+    public Container(Map map) {
         initFromMap(map)
-    }
-
-    /** Constructs a Container object from the JSON representation. */
-    public Container(String json) {
-        this(ContextType.REMOTE)
-        Container proxy = mapper.readValue(json, Container.class)
-        this.content = proxy.content
-        this.metadata = proxy.metadata
-        this.steps = proxy.steps
-        this.context = proxy.context
     }
 
     @JsonIgnore
@@ -158,23 +125,30 @@ public class Container {
         return this.content.value
     }
 
-    ProcessingStep newStep() {
-        ProcessingStep step = new ProcessingStep();
-        steps.add(step)
-        return step
+    View newView() {
+        View view = new View();
+        views.add(view)
+        return view
     }
 
-    void addStep(ProcessingStep step) {
-        this.steps << step
+    void addView(View view) {
+        this.views << view
     }
 
-    ProcessingStep getStep(int index) {
-        if (index >= 0 && index < steps.si()) {
-        return steps[index]
+    View getView(int index) {
+        if (index >= 0 && index < views.size()) {
+            return views[index]
         }
         return null
     }
 
+    List<View> findViewsThatContain(String type) {
+        views.findAll { it?.metadata?.contains[type] }
+    }
+
+    List<View> findViewsThatContainBy(String type, String producer) {
+        views.findAll { it?.metadata?.contains[type]?.producer == producer }
+    }
 
     void setMetadata(String name, Object value) {
         this.metadata[name] = value
@@ -183,9 +157,6 @@ public class Container {
     Object getMetadata(String name) {
         return this.metadata[name]
     }
-
-//    private Content getContent() { return null }
-//    private void setContent(Content ignored) { }
 
     void define(String name, String iri) throws LappsIOException
     {
@@ -201,38 +172,28 @@ public class Container {
         ]
     }
 
-    String toJson() {
-        mapper.disable(SerializationFeature.INDENT_OUTPUT)
-        return mapper.writeValueAsString(this)
-        //return new JsonLd(this).toString()
-    }
-
-    String toPrettyJson() {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT)
-        return mapper.writeValueAsString(this)
-        //return new JsonLd(this).toPrettyString()
-    }
-
-    /** Calls toPrettyJson() */
-    String toString() {
-        //return new JsonLd(this).toPrettyString()
-        return toJson()
-    }
-
     private void initFromMap(Map map) {
-        this.text = map.text
+        if (map == null) {
+            return
+        }
+        this.context = map.context
+        this.content = new Content()//value:map.text.value, language:map.text.language)
+        this.text = map.text['@value']
+        this.language = map.text['@language']
+        this.metadata = [:]
         map.metadata.each { name, value ->
             this.metadata[name] = value
         }
-        map.steps.each { step ->
-            ProcessingStep processingStep = new ProcessingStep()
-            step.metadata.each { key,value ->
-                processingStep.metadata[key] = value
-            }
-            step.annotations.each { annotation ->
-                processingStep.annotations << new Annotation(annotation)
-            }
-            this.steps << processingStep
+        this.views = []
+        map.views.each { v ->
+            View view = new View(v)
+//            v.metadata.each { key,value ->
+//                view.metadata[key] = value
+//            }
+//            v.annotations.each { annotation ->
+//                view.annotations << new Annotation(annotation)
+//            }
+            this.views << view
         }
     }
 
