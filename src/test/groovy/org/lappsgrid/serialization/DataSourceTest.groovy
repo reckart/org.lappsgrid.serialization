@@ -1,7 +1,7 @@
 package org.lappsgrid.serialization
 
 import org.junit.*
-import org.lappsgrid.discriminator.Constants
+import static org.lappsgrid.discriminator.Discriminators.Uri
 import org.lappsgrid.serialization.aas.Token
 import org.lappsgrid.serialization.datasource.Get
 import org.lappsgrid.serialization.datasource.List
@@ -24,7 +24,7 @@ class DataSourceTest {
         assertNotNull "Unable to deserialize Get", after
         assertNotNull "Mising discriminator", after.discriminator
         assertNotNull "Missing key", after.key
-        assertTrue after.discriminator == Constants.Uri.GET
+        assertTrue after.discriminator == Uri.GET
         assertTrue before.discriminator == after.discriminator
         assertTrue before.key == after.key
     }
@@ -35,7 +35,7 @@ class DataSourceTest {
         List before = new List()
         String json = Serializer.toPrettyJson(before)
         List after = Serializer.parse(json, List)
-        assertTrue after.discriminator == Constants.Uri.LIST
+        assertTrue after.discriminator == Uri.LIST
         assertTrue after.discriminator == before.discriminator
         assertTrue after.payload.start == -1
         assertTrue after.payload.end == -1
@@ -51,7 +51,7 @@ class DataSourceTest {
         List before = new List(start, end)
         String json = Serializer.toPrettyJson(before)
         List after = Serializer.parse(json, List)
-        assertTrue after.discriminator == Constants.Uri.LIST
+        assertTrue after.discriminator == Uri.LIST
         assertTrue before.discriminator == after.discriminator
         assertTrue after.payload.start == start
         assertTrue after.payload.end == end
@@ -66,7 +66,7 @@ class DataSourceTest {
         String json = Serializer.toPrettyJson(before)
         Map map = Serializer.parse(json, Map)
         if (map.discriminator) {
-            if (map.discriminator == Constants.Uri.GET) {
+            if (map.discriminator == Uri.GET) {
                 println "This is a GET object"
             }
             else {

@@ -1,9 +1,8 @@
 package org.lappsgrid.serialization.datasource
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.lappsgrid.discriminator.Constants
+import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.Data
-import org.lappsgrid.serialization.aas.Token
 
 /**
  * @author Keith Suderman
@@ -11,12 +10,12 @@ import org.lappsgrid.serialization.aas.Token
 class List extends Data<Offsets> {
 
     public List() {
-        super(Constants.Uri.LIST)
+        super(Discriminators.Uri.LIST)
         this.payload = new Offsets();
     }
 
     public List(int start, int end) {
-        super(Constants.Uri.LIST)
+        super(Discriminators.Uri.LIST)
         this.payload = new Offsets(start, end)
     }
 

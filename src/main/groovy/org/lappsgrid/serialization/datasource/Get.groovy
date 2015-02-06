@@ -1,9 +1,8 @@
 package org.lappsgrid.serialization.datasource
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.Data
-import org.lappsgrid.serialization.aas.Token
-import org.lappsgrid.discriminator.Constants
 
 /**
  * @author Keith Suderman
@@ -11,11 +10,11 @@ import org.lappsgrid.discriminator.Constants
 class Get extends Data<String> {
 
     public Get() {
-        super(Constants.Uri.GET)
+        super(Discriminators.Uri.GET)
     }
 
     public Get(String key) {
-        super(Constants.Uri.GET, key)
+        super(Discriminators.Uri.GET, key)
     }
 
     @JsonIgnore
