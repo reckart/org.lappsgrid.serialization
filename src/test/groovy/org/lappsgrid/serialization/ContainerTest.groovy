@@ -4,6 +4,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
+import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
+import org.lappsgrid.serialization.lif.View
 
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
@@ -46,20 +49,15 @@ class ContainerTest {
         println "ContainerTest.testPrettyJson"
         Container original = new Container();
         original.text = getResource(INPUT_FILE_NAME)
-//        TEST_FILE.text = original.toPrettyJson()
-//        FileUtils.write(TEST_FILE, original.toPrettyJson());
         TEST_FILE.withWriter('UTF-8') {
-            it.write(original.toPrettyJson())
+            it.write(Serializer.toPrettyJson(original))
             it.flush()
             it.close()
         }
 
 
-//        final String json = FileUtils.read(TEST_FILE);
         final String json = TEST_FILE.getText('UTF-8')
-        //println json
-        Container copy = new Container(json);
-        //println copy.toPrettyJson()
+        Container copy = Serializer.parse(json, Container);
         assertTrue(original.text == copy.text)
     }
 
@@ -69,18 +67,13 @@ class ContainerTest {
         println "ContainerTest.testJson"
         final Container original = new Container()
         original.text = getResource(INPUT_FILE_NAME)
-//        TEST_FILE.text = original.toJson()
         TEST_FILE.withWriter('UTF-8') {
-            it.write(original.toJson())
+            it.write(Serializer.toJson(original))
             it.flush()
             it.close()
         }
         final String json = TEST_FILE.getText('UTF-8')
-        //println json
-        Container copy = new Container(json)
-        //println copy.toPrettyJson()
-//        println original.text
-//        println copy.text
+        Container copy = Serializer.parse(json, Container)
         assertTrue(original.text == copy.text)
     }
 
@@ -95,8 +88,8 @@ class ContainerTest {
         container.metadata.map = [foo:'foo', bar:'bar']
         container.metadata.list = [0,1,2,3,4]
 
-        String json = container.toJson()
-        container = new Container(json)
+        String json = Serializer.toJson(container)
+        container = Serializer.parse(json, Container)
         assertTrue container.text == 'Hello world'
         assertNotNull container.metadata
         assertNotNull container.metadata.map
@@ -105,12 +98,9 @@ class ContainerTest {
         assertNotNull container.metadata.list
         assertTrue container.metadata.list instanceof List
         assertTrue container.metadata.list.size() == 5
-//        (0..4).each { i ->
-//            assertTrue container.metadata.list[i] == i
-//        }
         assertTrue container.metadata.list[0] == 0
         assertTrue container.metadata.list[4] == 4
-        println container.toPrettyJson()
+//        println Serializer.toPrettyJson(container)
     }
 
     @Test
@@ -133,16 +123,15 @@ class ContainerTest {
         view.annotations.add a
         container.views.add view
 
-        String json = container.toPrettyJson()
+        String json = Serializer.toPrettyJson(container)
 
-        container = new Container(json)
+        container = Serializer.parse(json, Container)
         assertTrue(container.views.size() == 1)
         view = container.views[0]
         assertTrue(view.annotations.size() == 1)
         a = view.annotations[0]
         assertTrue(a.label == 'Token')
         assertTrue(a.type == 'Lapps:TextAnnotation')
-//        assertTrue(a.type == 'Token')
         println json
     }
 
@@ -163,8 +152,8 @@ class ContainerTest {
         a.id = "m1"
         a.start = 0
         a.end = 5
-        String json =  container.toPrettyJson();
-        container = new Container(json)
+        String json = Serializer.toPrettyJson(container)
+        container = Serializer.parse(json, Container)
         assertTrue(container.context.toString(), container.context.morpheme != null)
         assertTrue(container.context.morpheme['@id'] == uri)
         assertTrue(container.context.morpheme['@type'] == '@id')
@@ -184,7 +173,8 @@ class ContainerTest {
     public void testDefaultContext() {
         Container container = new Container()
         assertTrue container.context == Container.REMOTE_CONTEXT
-        container = new Container(container.toJson())
+        String json = Serializer.toJson(container)
+        container = Serializer.parse(json, Container)
         assertTrue container.context == Container.REMOTE_CONTEXT
 
         container = new Container(Container.ContextType.REMOTE)
@@ -194,7 +184,7 @@ class ContainerTest {
         assertTrue container.context == Container.LOCAL_CONTEXT
     }
 
-    @Test
+    @Ignore
     public void testRemoteContext() {
         Container container = new Container(false)
         assertTrue("Context is not a string!", container.context instanceof String)

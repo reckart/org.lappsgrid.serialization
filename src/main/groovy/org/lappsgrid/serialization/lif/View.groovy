@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 
@@ -53,8 +53,19 @@ public class View {
     }
 
     public View(Map map) {
-        metadata = map.metadata
-        annotations = map.annotations
+        if (map == null) {
+            return
+        }
+        this.id = map['id']
+        metadata = [:]
+        map.metadata.each { name, value ->
+            metadata[name] = value
+        }
+        //annotations = map.annotations
+        annotations = []
+        map.annotations.each { a ->
+            annotations << new Annotation(a)
+        }
     }
 
     /**
@@ -99,9 +110,12 @@ public class View {
     /**
      * Creates and returns a new Annotation.
      */
-    Annotation newAnnotation(String type, long start, long end) {
+    Annotation newAnnotation(String id, String type, long start=-1, long end=-1) {
         Annotation a = newAnnotation()
+        a.id = id
         a.setType(type)
+        a.setAtType(type)
+        a.setLabel(type)
         a.setStart(start)
         a.setEnd(end)
         return a

@@ -14,20 +14,15 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
+import org.lappsgrid.serialization.LappsIOException
 
 /**
- * Container objects associate a body of text with the annotations that have
- * been created for that text.
- * <p>
- * This is the object that will eventually be serialized over the wire.
+ * Container objects are the out wrapper for all LIF objects.
  *
  * @author Keith Suderman
  */
@@ -49,13 +44,12 @@ public class Container {
     /** The list of annotations that have been created for the text. */
     List<View> views
 
-    private final ObjectMapper mapper;
-
     @JsonProperty("@context")
     Object context
 
     public static final String REMOTE_CONTEXT = "http://vocab.lappsgrid.org/context-1.0.0.jsonld"
 
+    //TODO Keeping the local context up to date is a never ending process.
     public static final Map LOCAL_CONTEXT = [
         '@vocab':'http://vocab.lappsgrid.org/',
         'meta':'http://vocab.lappsgrid.org/metadata/',
@@ -94,9 +88,9 @@ public class Container {
         this(ContextType.REMOTE)
     }
 
-    public Container(ContextType type) {
+    protected Container(ContextType type) {
         content = new Content()
-        mapper = new ObjectMapper()
+//        mapper = new ObjectMapper()
         metadata = new HashMap<String,Object>();
         views = new ArrayList<View>()
         if (type == ContextType.LOCAL) {
@@ -105,37 +99,10 @@ public class Container {
         else {
             context = REMOTE_CONTEXT
         }
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    public Container(boolean local) {
-        content = new Content()
-        mapper = new ObjectMapper()
-        metadata = new HashMap<String,Object>();
-        views = new ArrayList<View>()
-        if (local) {
-            context = LOCAL_CONTEXT
-        }
-        else {
-            context = REMOTE_CONTEXT
-        }
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
-
-    /** Constructs a Container object from the values stored in the Map. */
-    public Container(boolean local, Map map) {
-        this(local)
+    public Container(Map map) {
         initFromMap(map)
-    }
-
-    /** Constructs a Container object from the JSON representation. */
-    public Container(String json) {
-        this(ContextType.REMOTE)
-        Container proxy = mapper.readValue(json, Container.class)
-        this.content = proxy.content
-        this.metadata = proxy.metadata
-        this.views = proxy.views
-        this.context = proxy.context
     }
 
     @JsonIgnore
@@ -175,6 +142,13 @@ public class Container {
         return null
     }
 
+    List<View> findViewsThatContain(String type) {
+        views.findAll { it?.metadata?.contains[type] }
+    }
+
+    List<View> findViewsThatContainBy(String type, String producer) {
+        views.findAll { it?.metadata?.contains[type]?.producer == producer }
+    }
 
     void setMetadata(String name, Object value) {
         this.metadata[name] = value
@@ -198,35 +172,27 @@ public class Container {
         ]
     }
 
-    String toJson() {
-        mapper.disable(SerializationFeature.INDENT_OUTPUT)
-        return mapper.writeValueAsString(this)
-        //return new JsonLd(this).toString()
-    }
-
-    String toPrettyJson() {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT)
-        return mapper.writeValueAsString(this)
-    }
-
-    /** Calls toPrettyJson() */
-    String toString() {
-        return toJson()
-    }
-
     private void initFromMap(Map map) {
-        this.text = map.text
+        if (map == null) {
+            return
+        }
+        this.context = map.context
+        this.content = new Content()//value:map.text.value, language:map.text.language)
+        this.text = map.text['@value']
+        this.language = map.text['@language']
+        this.metadata = [:]
         map.metadata.each { name, value ->
             this.metadata[name] = value
         }
+        this.views = []
         map.views.each { v ->
-            View view = new View()
-            v.metadata.each { key,value ->
-                view.metadata[key] = value
-            }
-            v.annotations.each { annotation ->
-                view.annotations << new Annotation(annotation)
-            }
+            View view = new View(v)
+//            v.metadata.each { key,value ->
+//                view.metadata[key] = value
+//            }
+//            v.annotations.each { annotation ->
+//                view.annotations << new Annotation(annotation)
+//            }
             this.views << view
         }
     }

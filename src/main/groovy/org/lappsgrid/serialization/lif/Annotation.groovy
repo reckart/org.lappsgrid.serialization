@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -48,6 +48,7 @@ public class Annotation {
 
     /** The start offset of the annotation. */
     Long start = null
+
     /** The end offset of the annotation. */
     Long end = null
 
@@ -60,6 +61,13 @@ public class Annotation {
     Map metadata = [:]
 
     public Annotation() { }
+
+    public Annotation(String id, String label, long start, long end) {
+        this.id = id
+        this.label = label
+        this.start = start
+        this.end = end
+    }
 
     public Annotation(String label, long start, long end) {
         this.label = label

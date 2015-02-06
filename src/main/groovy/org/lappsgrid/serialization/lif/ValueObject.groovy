@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -39,5 +39,13 @@ class ValueObject {
     {
         this.type = type;
         this.value = value;
+    }
+
+    public ValueObject(Map map) {
+        if (map == null) {
+            return
+        }
+        this.type = map['type']
+        this.value = map['value']
     }
 }

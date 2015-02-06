@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 /**
  * Holds information for the 'contains' sections of a {@link View}'s
@@ -43,4 +43,15 @@ class Contains {
      * The annotation type.
      */
     String type;
+
+    public Contains() { }
+
+    public Contains(Map map) {
+        if (map == null) {
+            return
+        }
+        this.url = map['url']
+        this.producer = map['producer']
+        this.type = map['type']
+    }
 }

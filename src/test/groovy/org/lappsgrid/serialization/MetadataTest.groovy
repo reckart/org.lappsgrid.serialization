@@ -4,7 +4,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-//import org.lappsgrid.vocabulary.Contents
+import org.lappsgrid.serialization.lif.Annotation
+import org.lappsgrid.serialization.lif.Container
+import org.lappsgrid.serialization.lif.Contains
+import org.lappsgrid.serialization.lif.View
 
 import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
@@ -20,6 +23,7 @@ class MetadataTest {
 
     @Before
     void setup() {
+
         json = this.class.getResource('metadata.json').text
         id = 0
     }
@@ -31,7 +35,8 @@ class MetadataTest {
 
     @Test
     void parseMetadata() {
-        Container c = new Container(json)
+        Container c = Serializer.parse(json, Container) // new Container(json)
+        assertNotNull "Unable to parser json", c
         assertTrue(c.text == 'Fido barks.')
         assertTrue(c.language == 'en')
         assertTrue(c.views.size() == 1)
@@ -40,16 +45,17 @@ class MetadataTest {
         def info = c.views[0].metadata.contains
         assertNotNull(info.tokens)
         assertNotNull(info.pos)
-        println c.toPrettyJson()
+        println Serializer.toPrettyJson(c) // c.toPrettyJson()
     }
 
     @Test
     void addMetadataTest() {
         Container c1 = new Container(false)
         c1.setMetadata("test", "value")
-        Container c2 = new Container(c1.toJson())
+        String json = Serializer.toJson(c1)
+        Container c2 = Serializer.parse(json, Container) // new Container(c1.toJson())
         assertTrue("value" == c2.getMetadata("test"))
-        println c2.toPrettyJson()
+        println Serializer.toPrettyJson(c2) // c2.toPrettyJson()
     }
 
     @Ignore
@@ -63,13 +69,13 @@ class MetadataTest {
         tokens.with {
             url = 'http://grid.anc.org:8080/service_manager/invoker/anc:gate.tokenizer_1.3.4'
             producer = 'org.anc.lapps.gate.tokenizer'
-            type = Contents.Tokenizations.ANNIE
+            type = "tokenization:gate"
         }
         def pos = new Contains()
         pos.with {
             url = 'http://grid.anc.org:8080/service_manager/invoker/anc:gate.tagger_1.3.4'
             producer = 'org.anc.lapps.gate.Tagger'
-            type = Contents.TagSets.GATE
+            type = "tagset:penn"
         }
 //        def sentences = new Contains()
 //        sentences.with {
@@ -90,7 +96,7 @@ class MetadataTest {
         }
         c.views.add(view)
         //println c.context
-        println c.toPrettyJson()
+        println Serializer.toPrettyJson(c)
     }
 
     @Ignore
@@ -119,7 +125,7 @@ class MetadataTest {
         view.metadata.contains = contains
         c.views.add(view)
         //println c.context
-        println c.toPrettyJson()
+        println Serializer.toPrettyJson(c)
     }
 
     Annotation makeAnnotation(String name, int start, int end, Map features) {

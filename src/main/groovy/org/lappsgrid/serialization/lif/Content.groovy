@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.lif
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -34,4 +34,9 @@ public class Content {
     String language
 
     public Content() { }
+
+//    public Content(Map map) {
+//        this.value = map['value']
+//        this.language = map['language']
+//    }
 }
