@@ -3,7 +3,6 @@ branches:
     only:
         - master
         - develop
-        - feature/simple-api
 before_install:
     - curl -O http://www.anc.org/tools/settings.xml
 install:
