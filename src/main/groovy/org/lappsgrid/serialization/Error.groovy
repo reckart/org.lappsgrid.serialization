@@ -1,6 +1,6 @@
 package org.lappsgrid.serialization
 
-import org.lappsgrid.discriminator.Constants
+import static org.lappsgrid.discriminator.Discriminators.Uri
 
 /**
  * @author Keith Suderman
@@ -8,7 +8,7 @@ import org.lappsgrid.discriminator.Constants
 class Error extends Data<String> {
 
     public Error() {
-        super(Constants.Uri.ERROR, "Unknown error.")
+        super(Uri.ERROR, "Unknown error.")
     }
 
     public Error(Map map) {
@@ -17,7 +17,7 @@ class Error extends Data<String> {
     }
 
     public Error(String message) {
-        this.discriminator = Constants.Uri.ERROR
+        this.discriminator = Uri.ERROR
         this.payload = message
     }
 }
