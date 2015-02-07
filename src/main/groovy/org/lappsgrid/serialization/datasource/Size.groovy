@@ -1,8 +1,7 @@
 package org.lappsgrid.serialization.datasource
 
-import org.lappsgrid.discriminator.Constants
+import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.Data
-import org.lappsgrid.serialization.aas.Token
 
 /**
  * @author Keith Suderman
@@ -10,7 +9,7 @@ import org.lappsgrid.serialization.aas.Token
 class Size extends Data<Void> {
 
     public Size() {
-        super(Constants.Uri.SIZE)
+        super(Discriminators.Uri.SIZE)
     }
 
 }
