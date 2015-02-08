@@ -12,7 +12,7 @@ class Error extends Data<String> {
     }
 
     public Error(Map map) {
-        this.discriminator = map['discriminator']
+        this.discriminator = Uri.ERROR
         this.payload = map['payload']
     }
 

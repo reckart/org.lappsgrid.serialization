@@ -41,13 +41,9 @@ class ServiceCallTest {
         Container c1 = ContainerFactory.createContainer()
         Execute execute = new Execute(c1)
         String json = Serializer.toPrettyJson(execute)
-//        println json
         Map map = Serializer.parse(json, Map)
-//        println "Discriminator is ${map.discriminator}"
         Container c2 = new Container(map.payload)
         println Serializer.toPrettyJson(c2)
-//        println c1.language
-//        println c2.language
         assertTrue c1.language == c2.language
         assertTrue c1.text == c2.text
         assertTrue c1.views.size() == c2.views.size()
@@ -56,11 +52,11 @@ class ServiceCallTest {
     }
 
     void compareContainers(Container c1, Container c2) {
-        check "Content text", c1.content.value, c2.content.value
-        check "Content language", c1.content.language, c2.content.language
-        check "Text", c1.text, c2.text
-        check "Language", c1.language, c2.language
-        check "Number of views", c1.views.size(), c2.views.size()
+        assertEquals c1.content.value, c2.content.value
+        assertEquals c1.content.language, c2.content.language
+        assertEquals c1.text, c2.text
+        assertEquals c1.language, c2.language
+        assertEquals c1.views.size(), c2.views.size()
         compareMaps c1.metadata, c2.metadata
     }
 
@@ -103,10 +99,4 @@ class ServiceCallTest {
         c2.each { assertTrue c1.contains(it) }
     }
 
-    void compareTokens(Token t1, Token t2) {
-        assertTrue 'Token UUIDs do not match', t1.uuid == t2.uuid
-        assertTrue 'Token issuers do not match', t1.issuer == t2.issuer
-        assertTrue 'Token timestamps do not match', t1.timestamp == t2.timestamp
-        assertTrue 'Token lifetimes do not match', t1.lifetime == t2.lifetime
-    }
 }

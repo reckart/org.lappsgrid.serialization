@@ -1,6 +1,8 @@
 package org.lappsgrid.serialization
 
 import org.junit.*
+import org.lappsgrid.serialization.datasource.Size
+
 import static org.lappsgrid.discriminator.Discriminators.Uri
 import org.lappsgrid.serialization.aas.Token
 import org.lappsgrid.serialization.datasource.Get
@@ -24,9 +26,9 @@ class DataSourceTest {
         assertNotNull "Unable to deserialize Get", after
         assertNotNull "Mising discriminator", after.discriminator
         assertNotNull "Missing key", after.key
-        assertTrue after.discriminator == Uri.GET
-        assertTrue before.discriminator == after.discriminator
-        assertTrue before.key == after.key
+        assertEquals after.discriminator, Uri.GET
+        assertEquals before.discriminator, after.discriminator
+        assertEquals before.key, after.key
     }
 
     @Test
@@ -43,7 +45,7 @@ class DataSourceTest {
         assertTrue before.payload.end == after.payload.end
     }
 
-    @Ignore
+    @Test
     void testListIndexed() {
         int start = 1
         int end = 2
@@ -57,32 +59,40 @@ class DataSourceTest {
         assertTrue after.payload.end == end
     }
 
-    @Ignore
-    void testAsMap() {
-        println "DataSourceTest.testAsMap"
+    @Test
+    void testGetAsMap() {
+        println "DataSourceTest.testGetAsMap"
         int start = 1
         int end = 2
         Get before = new Get('key')
         String json = Serializer.toPrettyJson(before)
         Map map = Serializer.parse(json, Map)
-        if (map.discriminator) {
-            if (map.discriminator == Uri.GET) {
-                println "This is a GET object"
-            }
-            else {
-                println "This is a ${map.discriminator}"
-            }
-        }
-        else {
-            println "discriminator is null."
-        }
-
+        assertNotNull(map)
+        assertNotNull(map.discriminator)
+        assertEquals map.discriminator, Uri.GET
     }
 
-//    void compareTokens(Token t1, Token t2) {
-//        assertTrue 'Token UUIDs do not match', t1.uuid == t2.uuid
-//        assertTrue 'Token issuers do not match', t1.issuer == t2.issuer
-//        assertTrue 'Token timestamps do not match', t1.timestamp == t2.timestamp
-//        assertTrue 'Token lifetimes do not match', t1.lifetime == t2.lifetime
-//    }
+    @Test
+    void testListAsMap() {
+        println "DataSourceTest.testListAsMap"
+        List before = new List(1,2)
+        String json = Serializer.toPrettyJson(before)
+        Map map = Serializer.parse(json, HashMap)
+        assertNotNull map
+        assertNotNull map.discriminator
+        assertEquals map.discriminator, Uri.LIST
+        assertEquals map.payload.start, 1
+        assertEquals map.payload.end, 2
+    }
+
+    @Test
+    void testSize() {
+        println "DataSourceTest.testSize"
+        Size before = new Size()
+        String json = Serializer.toPrettyJson(before)
+        Size after = Serializer.parse(json, Size)
+        assertEquals before.discriminator, Uri.SIZE
+        assertEquals before.discriminator, after.discriminator
+        assertEquals before.payload, null
+    }
 }
