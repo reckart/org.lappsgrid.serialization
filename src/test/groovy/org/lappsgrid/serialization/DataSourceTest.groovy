@@ -1,12 +1,12 @@
 package org.lappsgrid.serialization
 
 import org.junit.*
-import org.lappsgrid.serialization.datasource.Size
+import org.lappsgrid.serialization.datasource.SizeRequest
 
 import static org.lappsgrid.discriminator.Discriminators.Uri
-import org.lappsgrid.serialization.aas.Token
-import org.lappsgrid.serialization.datasource.Get
-import org.lappsgrid.serialization.datasource.List
+
+import org.lappsgrid.serialization.datasource.GetRequest
+import org.lappsgrid.serialization.datasource.ListRequest
 
 import static org.junit.Assert.*
 
@@ -19,10 +19,10 @@ class DataSourceTest {
     void testGet() {
         println "DataSourceTest.testGet"
         String key = 'MASC3-0001'
-        Get before = new Get(key)
+        GetRequest before = new GetRequest(key)
         String json = Serializer.toPrettyJson(before)
 //        println json
-        Get after = Serializer.parse(json, Get)
+        GetRequest after = Serializer.parse(json, GetRequest)
         assertNotNull "Unable to deserialize Get", after
         assertNotNull "Mising discriminator", after.discriminator
         assertNotNull "Missing key", after.key
@@ -34,9 +34,9 @@ class DataSourceTest {
     @Test
     void testList() {
         println "DataSourceTest.testList"
-        List before = new List()
+        ListRequest before = new ListRequest()
         String json = Serializer.toPrettyJson(before)
-        List after = Serializer.parse(json, List)
+        ListRequest after = Serializer.parse(json, ListRequest)
         assertTrue after.discriminator == Uri.LIST
         assertTrue after.discriminator == before.discriminator
         assertTrue after.payload.start == -1
@@ -50,9 +50,9 @@ class DataSourceTest {
         int start = 1
         int end = 2
         println "DataSourceTest.testListIndexed"
-        List before = new List(start, end)
+        ListRequest before = new ListRequest(start, end)
         String json = Serializer.toPrettyJson(before)
-        List after = Serializer.parse(json, List)
+        ListRequest after = Serializer.parse(json, ListRequest)
         assertTrue after.discriminator == Uri.LIST
         assertTrue before.discriminator == after.discriminator
         assertTrue after.payload.start == start
@@ -64,7 +64,7 @@ class DataSourceTest {
         println "DataSourceTest.testGetAsMap"
         int start = 1
         int end = 2
-        Get before = new Get('key')
+        GetRequest before = new GetRequest('key')
         String json = Serializer.toPrettyJson(before)
         Map map = Serializer.parse(json, Map)
         assertNotNull(map)
@@ -75,7 +75,7 @@ class DataSourceTest {
     @Test
     void testListAsMap() {
         println "DataSourceTest.testListAsMap"
-        List before = new List(1,2)
+        ListRequest before = new ListRequest(1,2)
         String json = Serializer.toPrettyJson(before)
         Map map = Serializer.parse(json, HashMap)
         assertNotNull map
@@ -88,9 +88,9 @@ class DataSourceTest {
     @Test
     void testSize() {
         println "DataSourceTest.testSize"
-        Size before = new Size()
+        SizeRequest before = new SizeRequest()
         String json = Serializer.toPrettyJson(before)
-        Size after = Serializer.parse(json, Size)
+        SizeRequest after = Serializer.parse(json, SizeRequest)
         assertEquals before.discriminator, Uri.SIZE
         assertEquals before.discriminator, after.discriminator
         assertEquals before.payload, null

@@ -109,9 +109,9 @@ class ContainerTest {
         Container container = new Container()
         container.text = 'hello world'
         container.metadata = [test: 'this is a test']
-        View view = new View()
+        View view = container.newView()
         view.metadata.producedBy = 'Test code'
-        def a = new Annotation()
+        def a = view.newAnnotation()
         a.id = 'a12'
         a.start = 0
         a.end = 5
@@ -120,8 +120,6 @@ class ContainerTest {
         a.type = 'Lapps:TextAnnotation'
         a.features.pos = 'NN'
         a.features.lemma = 'hello'
-        view.annotations.add a
-        container.views.add view
 
         String json = Serializer.toPrettyJson(container)
 

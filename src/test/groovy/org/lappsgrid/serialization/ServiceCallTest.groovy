@@ -1,9 +1,8 @@
 package org.lappsgrid.serialization
 
 import org.junit.*
-import org.lappsgrid.serialization.aas.Token
 import org.lappsgrid.serialization.lif.Container
-import org.lappsgrid.serialization.service.Execute
+import org.lappsgrid.serialization.service.ExecuteRequest
 
 import static org.junit.Assert.*
 
@@ -16,10 +15,10 @@ class ServiceCallTest {
     void testExecute() {
         println "ServiceCallTest.testExecute"
         Container container = ContainerFactory.createContainer()
-        Execute before = new Execute(container)
+        ExecuteRequest before = new ExecuteRequest(container)
         String json = before.asJson() //Serializer.toPrettyJson(before)
         println json
-        Execute after = Serializer.parse(json, Execute)
+        ExecuteRequest after = Serializer.parse(json, ExecuteRequest)
 
         compareContainers(before.payload, after.payload)
     }
@@ -28,9 +27,9 @@ class ServiceCallTest {
     void testExecuteNoToken() {
         println "ServiceCallTest.testExecuteNoToken"
         Container container = ContainerFactory.createContainer();
-        Execute before = new Execute(container)
-        String json = Serializer.toPrettyJson(before)
-        Execute after = Serializer.parse(json, Execute)
+        ExecuteRequest before = new ExecuteRequest(container)
+        String json = before.asJson()
+        ExecuteRequest after = Serializer.parse(json, ExecuteRequest)
         assertTrue before.discriminator == after.discriminator
         compareContainers before.payload, after.payload
     }
@@ -39,8 +38,8 @@ class ServiceCallTest {
     void testExecuteFromMap() {
         println "ServiceCallTest.testExecuteFromMap"
         Container c1 = ContainerFactory.createContainer()
-        Execute execute = new Execute(c1)
-        String json = Serializer.toPrettyJson(execute)
+        ExecuteRequest execute = new ExecuteRequest(c1)
+        String json = execute.asJson()
         Map map = Serializer.parse(json, Map)
         Container c2 = new Container(map.payload)
         println Serializer.toPrettyJson(c2)

@@ -7,9 +7,9 @@ import org.lappsgrid.serialization.lif.Container
 /**
  * @author Keith Suderman
  */
-class Execute extends Data<Container> {
-    public Execute() { }
-    public Execute(Container container) {
+class ExecuteRequest extends Data<Container> {
+    public ExecuteRequest() { }
+    public ExecuteRequest(Container container) {
         super(Discriminators.Uri.JSON_LD, container)
     }
 }
