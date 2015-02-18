@@ -1,0 +1,2 @@
+The pure-java branch is for the development of a pure Java
+implementation of the serialization classes.
