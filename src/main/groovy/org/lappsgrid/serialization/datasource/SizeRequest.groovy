@@ -6,9 +6,9 @@ import org.lappsgrid.serialization.Data
 /**
  * @author Keith Suderman
  */
-class Size extends Data<Void> {
+class SizeRequest extends Data<Void> {
 
-    public Size() {
+    public SizeRequest() {
         super(Discriminators.Uri.SIZE)
     }
 

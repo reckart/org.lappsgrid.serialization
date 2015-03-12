@@ -7,14 +7,14 @@ import org.lappsgrid.serialization.Data
 /**
  * @author Keith Suderman
  */
-class List extends Data<Offsets> {
+class ListRequest extends Data<Offsets> {
 
-    public List() {
+    public ListRequest() {
         super(Discriminators.Uri.LIST)
         this.payload = new Offsets();
     }
 
-    public List(int start, int end) {
+    public ListRequest(int start, int end) {
         super(Discriminators.Uri.LIST)
         this.payload = new Offsets(start, end)
     }

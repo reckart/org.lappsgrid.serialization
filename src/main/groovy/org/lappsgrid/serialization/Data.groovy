@@ -33,7 +33,7 @@ public class Data<T> {
 
     @JsonIgnore
     public void setParameter(String name, Object value) {
-        if (!parametesr) {
+        if (!parameters) {
             parameters = [:]
         }
         parameters[name] = value

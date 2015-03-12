@@ -5,5 +5,5 @@ import org.lappsgrid.serialization.Data
 /**
  * @author Keith Suderman
  */
-class Size extends Data<Integer> {
+class SizeResponse extends Data<Integer> {
 }

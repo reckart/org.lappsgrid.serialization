@@ -5,6 +5,6 @@ import org.lappsgrid.serialization.Data
 /**
  * @author Keith Suderman
  */
-class List extends Data<java.util.List<String>> {
+class ListResponse extends Data<List<String>> {
 
 }

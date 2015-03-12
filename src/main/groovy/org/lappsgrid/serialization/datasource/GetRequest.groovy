@@ -7,13 +7,13 @@ import org.lappsgrid.serialization.Data
 /**
  * @author Keith Suderman
  */
-class Get extends Data<String> {
+class GetRequest extends Data<String> {
 
-    public Get() {
+    public GetRequest() {
         super(Discriminators.Uri.GET)
     }
 
-    public Get(String key) {
+    public GetRequest(String key) {
         super(Discriminators.Uri.GET, key)
     }
 

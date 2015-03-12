@@ -4,11 +4,10 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage
 import com.github.fge.jsonschema.core.report.ProcessingReport
 import org.anc.json.validator.Validator
 import org.junit.*
-import org.lappsgrid.serialization.aas.Token
-import org.lappsgrid.serialization.datasource.Get
-import org.lappsgrid.serialization.datasource.List
+import org.lappsgrid.serialization.datasource.GetRequest
+import org.lappsgrid.serialization.datasource.ListRequest
 import org.lappsgrid.serialization.lif.Container
-import org.lappsgrid.serialization.service.Execute
+import org.lappsgrid.serialization.service.ExecuteRequest
 
 import static org.junit.Assert.*
 
@@ -20,13 +19,13 @@ class ValidationTests {
     @Test
     void validateGet() {
 //        String json = Serializer.toPrettyJson(new Get(token, "key"))
-        String json = new Get("key").asJson()
+        String json = new GetRequest("key").asJson()
         validate(json, "action/get-schema.json")
     }
 
     @Test
     void validateListNoArgs() {
-        String json = Serializer.toPrettyJson(new List())
+        String json = Serializer.toPrettyJson(new ListRequest())
         validate(json, "action/list-schema.json")
     }
 
@@ -34,7 +33,7 @@ class ValidationTests {
     void  validateListWithArgs() {
         final int start = 1
         final int end = 2
-        List list = new List(start, end)
+        ListRequest list = new ListRequest(start, end)
 //        String json = Serializer.toPrettyJson(list)
         validate(list.asJson(), 'action/list-schema.json')
     }
@@ -42,7 +41,7 @@ class ValidationTests {
     @Test
     void validateExecute() {
         Container container = ContainerFactory.createContainer()
-        Execute execute = new Execute(container)
+        ExecuteRequest execute = new ExecuteRequest(container)
 //        String json = Serializer.toPrettyJson(execute)
         validate(execute.asJson(), "action/execute-schema.json")
     }
