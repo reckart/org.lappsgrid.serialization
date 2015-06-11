@@ -14,11 +14,13 @@ import static org.junit.Assert.assertTrue
 /**
  * @author Keith Suderman
  */
-class ContainerTest {
+public class ContainerTest {
 
-    private static final String INPUT_FILE_NAME = "/Bartok.txt"
+    public final String INPUT_FILE_NAME = "/Bartok.txt"
 
     private File TEST_FILE
+
+    public ContainerTest() {}
 
     @Before
     public void setup()
