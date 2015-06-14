@@ -21,11 +21,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import org.lappsgrid.serialization.aas.Token
 
 /**
+ * The Data object is the container for all communications between services on
+ * the Lappsgrid.
+ *
+ * The Data object consists of a discrimintator, a payload, and possibly some
+ * parameters.
+ *
  * @author Keith Suderman
  */
 public class Data<T> {
+    /**
+     * A URI that specifies the content of the payload.  The URI must be one of
+     * the URI defined at http://vocab.lappsgrid.org/discriminators.html
+     */
     String discriminator
+
+    /**
+     * The payload to be transmitted.
+     */
     T payload
+
+    /** A map of parameters (if any) to be sent with the requst. */
     Map parameters
 
     public Data() {
@@ -61,11 +77,13 @@ public class Data<T> {
         return parameters?.get(name)
     }
 
+    /** Returns a JSON representation of the Data object */
     public String asJson()
     {
         return Serializer.toJson(this);
     }
 
+    /** Returns a pretty-printed JSON representation of the Data object. */
     public String asPrettyJson()
     {
         return Serializer.toPrettyJson(this);

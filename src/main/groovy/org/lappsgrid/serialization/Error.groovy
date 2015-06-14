@@ -20,6 +20,10 @@ package org.lappsgrid.serialization
 import static org.lappsgrid.discriminator.Discriminators.Uri
 
 /**
+ * A Data object with the discriminator set to http://vocab.lappsgrid.org/ns/error
+ *
+ * The payload should contain the error message.
+ *
  * @author Keith Suderman
  */
 class Error extends Data<String> {

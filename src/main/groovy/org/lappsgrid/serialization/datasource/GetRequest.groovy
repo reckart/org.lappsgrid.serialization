@@ -22,6 +22,9 @@ import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.Data
 
 /**
+ * The {@link org.lappsgrid.serialization.Data} object sent to request a single
+ * document from a Lappgrid Datasource.
+ *
  * @author Keith Suderman
  */
 class GetRequest extends Data<String> {

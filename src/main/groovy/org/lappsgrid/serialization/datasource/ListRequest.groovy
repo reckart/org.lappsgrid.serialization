@@ -22,6 +22,14 @@ import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.Data
 
 /**
+ * The {@link org.lappsgrid.serialization.Data} object sent to a Datasource to retrieve a list of
+ * document IDs from the Datasource.
+ * <p>
+ * Datasources that contain a large number of documents may refuse to
+ * honor this request, in which case the {@code start} and {@code end} offsets
+ * should be used to paginate through the index.  Send a {@link Size} request to
+ * determine the total number of documents in the Datasource.
+ *
  * @author Keith Suderman
  */
 class ListRequest extends Data<Offsets> {

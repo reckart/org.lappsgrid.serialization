@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
 /**
  * @author Keith Suderman
+ * @deprecated
  */
 @JsonPropertyOrder(['uuid', 'issuer', 'timestamp', 'lifetime'])
 class Token {

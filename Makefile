@@ -12,9 +12,15 @@ jar:
 deploy:
 	mvn javadoc:jar source:jar deploy
 	
+docs:
+	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
+	lappsdoc "Lappsgrid Serialization"
+
 site:
 	cd $(PAGES) ; git checkout gh-pages ; git pull
-	mvn site
-	cp -r target/site/* $(PAGES)
-	cd $(PAGES) ; git add . ; commit "Updated Javadocs" ; push
+	#mvn site
+	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
+	lappsdoc "Lappsgrid Serialization"
+	cp -r target/apidocs/* $(PAGES)
+	cd $(PAGES) ; git add . ; commit "Updated Javadocs" ; push -b
 

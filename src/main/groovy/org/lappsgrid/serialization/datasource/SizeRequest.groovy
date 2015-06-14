@@ -21,6 +21,8 @@ import org.lappsgrid.discriminator.Discriminators
 import org.lappsgrid.serialization.Data
 
 /**
+ * The {@link org.lappsgrid.serialization.Data} object...
+ *
  * @author Keith Suderman
  */
 class SizeRequest extends Data<Void> {
