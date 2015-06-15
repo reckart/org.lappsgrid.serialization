@@ -1,5 +1,6 @@
 PAGES=../org.lappsgrid.serialization.pages
 BRANCH=$(shell git branch | grep \* | cut -d\  -f2)
+GROOVYDOC=src/test/resources/lappsdoc
 
 help:
 	@echo "Help is needed..."
@@ -15,11 +16,11 @@ deploy:
 	
 docs:
 	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
-	lappsdoc "Lappsgrid Serialization"
+	$(GROOVYDOC) "Lappsgrid Serialization"
 
 site:
 	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
-	lappsdoc "Lappsgrid Serialization"
+	$(GROOVYDOC) "Lappsgrid Serialization"
 	git checkout gh-pages
 	rm *.html *.ico *.gif
 	rm -rf org
