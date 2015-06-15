@@ -1,4 +1,3 @@
-PAGES=../org.lappsgrid.serialization.pages
 BRANCH=$(shell git branch | grep \* | cut -d\  -f2)
 GROOVYDOC=src/test/resources/lappsdoc
 
@@ -12,8 +11,13 @@ jar:
 	mvn package
 	
 deploy:
+	pom ; if [ $$? -eq 1 ] ; then exit 1 ; fi
 	mvn javadoc:jar source:jar deploy
-	
+
+snapshot:
+	issnapshot ; if [ $$? -eq 1 ] ; then exit 1 ; fi
+    mvn javadoc:jar source:jar deploy
+
 docs:
 	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
 	$(GROOVYDOC) "Lappsgrid Serialization"
