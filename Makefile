@@ -24,7 +24,7 @@ site:
 	rm *.html *.ico *.gif
 	rm -rf org
 	git commit -a -m "Removed old files."
-	cp target/apidocs/* .	
+	cp -r target/apidocs/* .	
 	git add *.html *.ico *.gif org
 	git commit -a -m "Updated gh-pages."
 	git push origin gh-pages
