@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 
 /**
  * @author Keith Suderman
+ * @deprecated
  */
 @JsonPropertyOrder(['username','password','resourceId'])
 class LoginRequest {

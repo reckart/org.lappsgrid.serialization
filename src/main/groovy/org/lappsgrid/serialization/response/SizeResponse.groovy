@@ -20,7 +20,9 @@ package org.lappsgrid.serialization.response
 import org.lappsgrid.serialization.Data
 
 /**
- * @author Keith Suderman
+ * Deprecated
+ *
+ * @deprecated
  */
 class SizeResponse extends Data<Integer> {
 }

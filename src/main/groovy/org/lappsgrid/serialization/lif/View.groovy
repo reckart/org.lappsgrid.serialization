@@ -125,6 +125,12 @@ public class View {
         return metadata?.contains[name]
     }
 
+    /**
+     * Adds an entry to the <i>contains</i> section in the view object.
+     * @param name The URI of the annotation type being created.
+     * @param producer The tool or program that generated the view.
+     * @param type The annotation type. Currently this field is under-defined.
+     */
     void addContains(String name, String producer, String type) {
 //        ValueObject containsType = new ValueObject(type:type, value:value)
         if (metadata.contains == null) {

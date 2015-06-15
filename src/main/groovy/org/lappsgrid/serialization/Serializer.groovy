@@ -22,6 +22,14 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 
 /**
+ * Serializes objects to/from JSON.
+ * <p>
+ * The `Serializer` class is a thin wrapper around the Jackson ObjectMapper.  While
+ * it is primarily intended to serialize LIF objects, there is nothing that prevents
+ * it from serializing arbitrary Java objects.
+ * <p>
+ * Since the Jackson ObjectMapper is thread-safe the Serializer class is also thread-safe.
+ *
  * @author Keith Suderman
  */
 class Serializer {
@@ -38,6 +46,9 @@ class Serializer {
     }
     private Serializer() {}
 
+    /**
+     * Parses a JSON string and creates an instance of the specified class.
+     */
     public static <T> T parse(String json, Class<T> theClass) {
         T result = null
         try {
@@ -51,6 +62,9 @@ class Serializer {
         return result;
     }
 
+    /**
+     * Returns a JSON representation of the object.
+     */
     public static String toJson(Object object)
     {
         try {
@@ -62,6 +76,7 @@ class Serializer {
         }
     }
 
+    /** Returns a pretty-printed JSON representation of the object. */
     public static String toPrettyJson(Object object)
     {
         try {
