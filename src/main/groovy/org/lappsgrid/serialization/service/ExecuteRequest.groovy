@@ -22,7 +22,9 @@ import org.lappsgrid.serialization.Data
 import org.lappsgrid.serialization.lif.Container
 
 /**
- * @author Keith Suderman
+ * Deprecated
+ *
+ * @deprecated
  */
 class ExecuteRequest extends Data<Container> {
     public ExecuteRequest() { }

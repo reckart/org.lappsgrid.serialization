@@ -25,6 +25,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * <p>
  * <b>NOTE</b> Users will typically use this class directly. Instead users will use
  * the text and language getters and setters on the {@link Container} object.
+ * <pre>
+ *     <code>
+ *         contaner.setText("Hello world");
+ *         container.setLanguage("en");
+ *     </code>
+ * </pre>
  *
  * @author Keith Suderman
  */

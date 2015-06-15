@@ -1,4 +1,4 @@
 /**
  * This package has been deprecated.
  */
-package org.lappsgrid.serialization.aas;
+package org.lappsgrid.serialization.service;

@@ -22,11 +22,47 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import org.lappsgrid.serialization.LappsIOException
 
 /**
- * Container objects are the out wrapper for all LIF objects.
+ * Container objects are the outer wrapper for all LIF objects.
+ * <p>
+ * A Lappsgrid Container consists of:
+ * <ol>
+ *     <li>the text content (with possibly the language).</li>
+ *     <li>some metadata</li>
+ *     <li>a list of {@link View}s</li>
+ * </ol>
+ * The Container object also contains helper methods to find the {@link View}s
+ * containing a given annotation type:
+ * <p>
+ * For example:
+ * <pre>
+ *     <code>
+ *         String token = "http://vocab.lappsgrid.org/Token"
+ *         Container container = new Container();
+ *         container.setText("Goodbye cruel world, I am leaving you today.");
+ *         container.setLanguage("en");
+ *         View view = container.newView();
+ *         view.addAnnotation("tok1", token, 0, 7);
+ *         ...
+ *         List<View> views = container.findViewsThatContain(token);
+ *         assertEquals(view, views.get(0));
+ *     </code>
+ * </pre>
+ * <p>
+ * Since LIF objects are serialized to JSON-LD they also define a {@code context}. By
+ * default all LIF objects refer to the remote context document
+ * <a href="http://vocab.lappsgrid.org/context-1.0.0.jsonld">http://vocab.lappsgrid.org/context-1.0.0.jsonld</a>.
+ * However, a local (in-line) context can be used with allows the context to be
+ * manipulated at runtime.
+ * <pre>
+ *     <code>
+ *         Container container = new Container(ContextType.LOCAL);
+ *         Map<String,String> context = (Map) container.getContext();
+ *         context.put("@vocab", "http://example.com/custom/vocabulary");
+ *     </code>
+ * </pre>
  *
  * @author Keith Suderman
  */
-//@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonPropertyOrder(["context","metadata","text","views"])
 public class Container {
 
