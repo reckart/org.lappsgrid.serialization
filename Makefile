@@ -16,13 +16,14 @@ deploy:
 
 snapshot:
 	issnapshot ; if [ $$? -eq 1 ] ; then exit 1 ; fi
-    mvn javadoc:jar source:jar deploy
+	mvn javadoc:jar source:jar deploy
 
 docs:
 	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
 	$(GROOVYDOC) "Lappsgrid Serialization"
 
 site:
+	git stash
 	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
 	$(GROOVYDOC) "Lappsgrid Serialization"
 	git checkout gh-pages
@@ -34,6 +35,7 @@ site:
 	git commit -a -m "Updated gh-pages."
 	git push origin gh-pages
 	git checkout $(BRANCH)
+	git stash apply
 
 test:
 	echo "Branch is $(BRANCH)"
