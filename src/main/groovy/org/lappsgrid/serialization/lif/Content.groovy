@@ -1,4 +1,4 @@
-/*-
+/*
  * Copyright 2014 The Language Application Grid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +20,17 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * The Content object is a JSON "value object", that is, a JSON object with a @value
- * field. The optional @language field is also included.
+ * The Content object is a JSON "value object", that is, a JSON object with a {@literal @}value
+ * field. The optional {@literal @}language field is also included.
  * <p>
+ * <b>NOTE</b> Users will typically use this class directly. Instead users will use
+ * the text and language getters and setters on the {@link Container} object.
+ * <pre>
+ *     <code>
+ *         contaner.setText("Hello world");
+ *         container.setLanguage("en");
+ *     </code>
+ * </pre>
  *
  * @author Keith Suderman
  */

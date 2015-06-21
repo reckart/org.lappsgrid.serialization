@@ -1,4 +1,4 @@
-/*-
+/*
  * Copyright 2014 The Language Application Grid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 
 /**
- * Information about a standoff annotation.
+ * Information about a single standoff annotation.
  *
  * @author Keith Suderman
  */
@@ -41,9 +41,11 @@ public class Annotation {
 //    @JsonProperty('@type')
     String label
 
+    /** The {@literal @}type value (if any) for the JSON element. */
     @JsonProperty('@type')
     String atType
 
+    /** A type from the Lappsgrid vocabulary. */
     String type
 
     /** The start offset of the annotation. */
@@ -52,7 +54,7 @@ public class Annotation {
     /** The end offset of the annotation. */
     Long end = null
 
-    /** Features of the annotation. */
+    /** Features of the annotation. Featues are assumed to be String name/value pairs. */
     Map features = [:]
 
     /** Features assigned by the framework to the annotation. E.g. a confidence
@@ -109,14 +111,6 @@ public class Annotation {
             }
         }
     }
-
-//    @JsonIgnore
-//    void setLabel(String label) {
-//        this.label = label
-//    }
-//
-//    @JsonIgnore
-//    String getLabel() { return this.type }
 
     @JsonIgnore
     void addFeature(String name, String value) {

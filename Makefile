@@ -1,4 +1,5 @@
 PAGES=../org.lappsgrid.serialization.pages
+BRANCH=$(shell git branch | grep \* | cut -d\  -f2)
 
 help:
 	@echo "Help is needed..."
@@ -12,9 +13,23 @@ jar:
 deploy:
 	mvn javadoc:jar source:jar deploy
 	
+docs:
+	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
+	lappsdoc "Lappsgrid Serialization"
+
 site:
-	cd $(PAGES) ; git checkout gh-pages ; git pull
-	mvn site
-	cp -r target/site/* $(PAGES)
-	cd $(PAGES) ; git add . ; commit "Updated Javadocs" ; push
+	if [ -e target/apidocs ] ; then rm -rf target/apidocs ; fi
+	lappsdoc "Lappsgrid Serialization"
+	git checkout gh-pages
+	rm *.html *.ico *.gif
+	rm -rf org
+	git commit -a -m "Removed old files."
+	cp -r target/apidocs/* .	
+	git add *.html *.ico *.gif org
+	git commit -a -m "Updated gh-pages."
+	git push origin gh-pages
+	git checkout $(BRANCH)
+
+test:
+	echo "Branch is $(BRANCH)"
 
