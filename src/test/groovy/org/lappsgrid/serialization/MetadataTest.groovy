@@ -41,7 +41,7 @@ class MetadataTest {
     @Before
     void setup() {
 
-        json = this.class.getResource('metadata.json').text
+        json = this.class.getResource('/metadata.json').text
         id = 0
     }
 
@@ -53,7 +53,7 @@ class MetadataTest {
     @Test
     void parseMetadata() {
         Container c = Serializer.parse(json, Container) // new Container(json)
-        assertNotNull "Unable to parser json", c
+        assertNotNull "Unable to parse json", c
         assertTrue(c.text == 'Fido barks.')
         assertTrue(c.language == 'en')
         assertTrue(c.views.size() == 1)
@@ -67,7 +67,7 @@ class MetadataTest {
 
     @Test
     void addMetadataTest() {
-        Container c1 = new Container(false)
+        Container c1 = new Container()
         c1.setMetadata("test", "value")
         String json = Serializer.toJson(c1)
         Container c2 = Serializer.parse(json, Container) // new Container(c1.toJson())

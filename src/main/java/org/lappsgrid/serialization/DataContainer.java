@@ -20,18 +20,18 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
  * @author Keith Suderman
  */
 public class DataContainer extends Data<Container> {
-    DataContainer() {
+    public DataContainer() {
         this.discriminator = Uri.LAPPS;
         this.parameters = new HashMap<>();
     }
 
-    DataContainer(Container payload) {
+    public DataContainer(Container payload) {
         this.discriminator = Uri.LAPPS;
         this.payload = payload;
         this.parameters = new HashMap<>();
     }
 
-    DataContainer(Map map) {
+    public DataContainer(Map map) {
         this.discriminator = Uri.LAPPS;
         this.payload = (Container) map.get("payload");
         this.parameters = (Map<String,Object>) map.get(parameters);

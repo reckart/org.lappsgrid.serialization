@@ -37,8 +37,9 @@ class DataSourceTest {
         println "DataSourceTest.testGet"
         String key = 'MASC3-0001'
         GetRequest before = new GetRequest(key)
+//        Data<String> before = new Data<String>(Uri.GET, "MASC3-0001")
         String json = Serializer.toPrettyJson(before)
-//        println json
+        println json
         GetRequest after = Serializer.parse(json, GetRequest)
         assertNotNull "Unable to deserialize Get", after
         assertNotNull "Mising discriminator", after.discriminator

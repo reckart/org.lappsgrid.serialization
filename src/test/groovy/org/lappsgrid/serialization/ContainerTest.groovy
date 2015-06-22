@@ -103,15 +103,24 @@ public class ContainerTest {
         Container container = new Container()
         container.text = 'Hello world'
         container.language = 'en'
-        container.metadata.text = 'text'
-        container.metadata.map = [foo:'foo', bar:'bar']
-        container.metadata.list = [0,1,2,3,4]
+        container.setMetadata("text", "text")
+        Map<String,String> map = new HashMap<>();
+        map.put("foo", "foo");
+        map.put("bar", "bar");
+        container.setMetadata("map", map);
+        List<Integer> list =  Arrays.asList(0, 1, 2, 3, 4);
+        container.setMetadata("list", list)
+//        container.metadata.text = 'text'
+//        container.metadata.map = [foo:'foo', bar:'bar']
+//        container.metadata.list = [0,1,2,3,4]
 
         String json = Serializer.toJson(container)
+        println json
         container = Serializer.parse(json, Container)
         assertTrue container.text == 'Hello world'
+        assertTrue container.language == 'en'
         assertNotNull container.metadata
-        assertNotNull container.metadata.map
+        assertNotNull container.metadata.get("map")
         assertTrue container.metadata.map.foo == 'foo'
         assertTrue container.metadata.map.bar == 'bar'
         assertNotNull container.metadata.list
@@ -139,9 +148,10 @@ public class ContainerTest {
         a.type = 'Lapps:TextAnnotation'
         a.features.pos = 'NN'
         a.features.lemma = 'hello'
-
+        assertTrue(view.getAnnotations().size() == 1);
+        assertTrue(container.getViews().size() == 1);
         String json = Serializer.toPrettyJson(container)
-
+        println json
         container = Serializer.parse(json, Container)
         assertTrue(container.views.size() == 1)
         view = container.views[0]
@@ -197,8 +207,8 @@ public class ContainerTest {
         container = new Container(Container.ContextType.REMOTE)
         assertTrue container.context == Container.REMOTE_CONTEXT
 
-        container = new Container(Container.ContextType.LOCAL)
-        assertTrue container.context == Container.LOCAL_CONTEXT
+//        container = new Container(Container.ContextType.LOCAL)
+//        assertTrue container.context == Container.LOCAL_CONTEXT
     }
 
     @Ignore

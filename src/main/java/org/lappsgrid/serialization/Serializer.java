@@ -84,6 +84,7 @@ public class Serializer {
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             return null;
         }
     }

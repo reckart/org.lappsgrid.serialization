@@ -28,7 +28,7 @@ import java.util.*;
  *
  * @author Keith Suderman
  */
-class Contains {
+public class Contains {
     /**
      * The URL of the processor that produced the annotations.
      */

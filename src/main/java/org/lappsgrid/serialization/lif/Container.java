@@ -161,7 +161,7 @@ public class Container
 	}
 
 	@JsonIgnore
-	void setLanguage(String lang)
+	public void setLanguage(String lang)
 	{
 		content.language = lang;
 	}
@@ -205,6 +205,16 @@ public class Container
 		return null;
 	}
 
+	public List<View> getViews()
+	{
+		return views;
+	}
+
+	public void setViews(List<View> views)
+	{
+		this.views = views;
+	}
+
 	public List<View> findViewsThatContain(String type)
 	{
 		List<View> result = new ArrayList<>();
@@ -243,6 +253,14 @@ public class Container
 	{
 		return this.metadata.get(name);
 	}
+	public Map<String,Object> getMetadata()
+	{
+		return this.metadata;
+	}
+	public void setMetdata(Map<String,Object> map)
+	{
+		this.metadata = map;
+	}
 
 	public void define(String name, String iri) throws LappsIOException
 	{
@@ -272,8 +290,8 @@ public class Container
 		Map<String, String> text = (Map<String,String>)map.get("text");
 		if (text != null)
 		{
-			this.setText(map.get("@value").toString());
-			String lang = map.get("@language").toString();
+			this.setText((String) text.get("@value"));
+			String lang = (String) text.get("@language");
 			if (lang != null)
 			{
 				this.setLanguage(lang);

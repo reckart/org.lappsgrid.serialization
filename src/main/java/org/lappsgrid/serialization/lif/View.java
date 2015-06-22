@@ -83,7 +83,7 @@ public class View
 	/**
 	 * Adds the name/value pair to the metadata map.
 	 */
-	void addMetaData(String name, Object value)
+	public void addMetaData(String name, Object value)
 	{
 		metadata.put(name, value);
 	}
@@ -91,7 +91,7 @@ public class View
 	/**
 	 * Adds an annotation to the processing step's list of annotations.
 	 */
-	void addAnnotation(Annotation annotation)
+	public void addAnnotation(Annotation annotation)
 	{
 		annotations.add(annotation);
 	}
@@ -99,7 +99,7 @@ public class View
 	/**
 	 * Adds an annotation to the processing step's list of annotations.
 	 */
-	void add(Annotation annotation)
+	public void add(Annotation annotation)
 	{
 		annotations.add(annotation);
 	}
@@ -109,7 +109,7 @@ public class View
 	 * false otherwise.
 	 * \
 	 */
-	boolean contains(String name)
+	public boolean contains(String name)
 	{
 		Object object = metadata.get("contains");
 		if (object != null && object instanceof Map)
@@ -122,17 +122,28 @@ public class View
 	/**
 	 * Creates and returns a new Annotation.
 	 */
-	Annotation newAnnotation()
+	public Annotation newAnnotation()
 	{
 		Annotation a = new Annotation();
 		annotations.add(a);
 		return a;
 	}
 
+	public List<Annotation> getAnnotations() { return annotations; }
+	public void setAnnotations(List<Annotation> annotations)
+	{
+		this.annotations = annotations;
+	}
+	public Map<String,Object> getMetadata() { return metadata; }
+	public void setMetadata(Map<String,Object> metadata)
+	{
+		this.metadata = metadata;
+	}
+
 	/**
 	 * Creates a new annotation with start = end = -1
 	 */
-	Annotation newAnntotation(String id, String type)
+	public Annotation newAnnotation(String id, String type)
 	{
 		return newAnnotation(id, type, -1, -1);
 	}
@@ -140,7 +151,7 @@ public class View
 	/**
 	 * Creates and returns a new Annotation.
 	 */
-	Annotation newAnnotation(String id, String type, long start, long end)
+	public Annotation newAnnotation(String id, String type, long start, long end)
 	{
 		Annotation a = newAnnotation();
 
@@ -153,7 +164,7 @@ public class View
 		return a;
 	}
 
-	Contains getContains(String name)
+	public Contains getContains(String name)
 	{
 		Object object = metadata.get("contains");
 		if (object != null && object instanceof Map)
@@ -170,7 +181,7 @@ public class View
 	 * @param producer The tool or program that generated the view.
 	 * @param type     The annotation type. Currently this field is under-defined.
 	 */
-	void addContains(String name, String producer, String type)
+	public void addContains(String name, String producer, String type)
 	{
 		Map<String,Object> map;
 		Object object = metadata.get("contains");

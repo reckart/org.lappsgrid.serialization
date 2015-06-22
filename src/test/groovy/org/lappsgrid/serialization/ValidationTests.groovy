@@ -24,7 +24,6 @@ import org.junit.*
 import org.lappsgrid.serialization.datasource.GetRequest
 import org.lappsgrid.serialization.datasource.ListRequest
 import org.lappsgrid.serialization.lif.Container
-import org.lappsgrid.serialization.service.ExecuteRequest
 
 import static org.junit.Assert.*
 
@@ -53,14 +52,6 @@ class ValidationTests {
         ListRequest list = new ListRequest(start, end)
 //        String json = Serializer.toPrettyJson(list)
         validate(list.asJson(), 'action/list-schema.json')
-    }
-
-    @Test
-    void validateExecute() {
-        Container container = ContainerFactory.createContainer()
-        ExecuteRequest execute = new ExecuteRequest(container)
-//        String json = Serializer.toPrettyJson(execute)
-        validate(execute.asJson(), "action/execute-schema.json")
     }
 
     @Test
