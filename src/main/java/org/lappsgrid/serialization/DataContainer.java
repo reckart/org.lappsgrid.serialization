@@ -1,6 +1,10 @@
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization;
 
-import org.lappsgrid.serialization.lif.Container
+import org.lappsgrid.serialization.lif.Container;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.lappsgrid.discriminator.Discriminators.Uri;
 
 /**
@@ -15,21 +19,21 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
  *
  * @author Keith Suderman
  */
-class DataContainer extends Data<Container> {
+public class DataContainer extends Data<Container> {
     DataContainer() {
-        this.discriminator = Uri.LAPPS
-        this.parameters = [:]
+        this.discriminator = Uri.LAPPS;
+        this.parameters = new HashMap<>();
     }
 
     DataContainer(Container payload) {
-        this.discriminator = Uri.LAPPS
+        this.discriminator = Uri.LAPPS;
         this.payload = payload;
-        this.parameters = [:]
+        this.parameters = new HashMap<>();
     }
 
     DataContainer(Map map) {
-        this.discriminator = Uri.LAPPS
-        this.payload = map.payload
-        this.parameters = map.parameters
+        this.discriminator = Uri.LAPPS;
+        this.payload = (Container) map.get("payload");
+        this.parameters = (Map<String,Object>) map.get(parameters);
     }
 }

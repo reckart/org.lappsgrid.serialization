@@ -15,10 +15,10 @@
  *
  */
 
-package org.lappsgrid.serialization.datasource
+package org.lappsgrid.serialization.datasource;
 
-import org.lappsgrid.discriminator.Discriminators
-import org.lappsgrid.serialization.Data
+import org.lappsgrid.discriminator.Discriminators;
+import org.lappsgrid.serialization.Data;
 
 /**
  * The {@link org.lappsgrid.serialization.Data} object...
@@ -28,7 +28,7 @@ import org.lappsgrid.serialization.Data
 class SizeRequest extends Data<Void> {
 
     public SizeRequest() {
-        super(Discriminators.Uri.SIZE)
+        super(Discriminators.Uri.SIZE);
     }
 
 }

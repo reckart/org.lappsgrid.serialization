@@ -15,11 +15,11 @@
  *
  */
 
-package org.lappsgrid.serialization.datasource
+package org.lappsgrid.serialization.datasource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.lappsgrid.discriminator.Discriminators
-import org.lappsgrid.serialization.Data
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.lappsgrid.discriminator.Discriminators;
+import org.lappsgrid.serialization.Data;
 
 /**
  * The {@link org.lappsgrid.serialization.Data} object sent to a Datasource to retrieve a list of
@@ -27,41 +27,61 @@ import org.lappsgrid.serialization.Data
  * <p>
  * Datasources that contain a large number of documents may refuse to
  * honor this request, in which case the {@code start} and {@code end} offsets
- * should be used to paginate through the index.  Send a {@link Size} request to
+ * should be used to paginate through the index.  Send a {@link SizeRequest} request to
  * determine the total number of documents in the Datasource.
  *
  * @author Keith Suderman
  */
-class ListRequest extends Data<Offsets> {
+public class ListRequest extends Data<ListRequest.Offsets> {
 
     public ListRequest() {
-        super(Discriminators.Uri.LIST)
+        super(Discriminators.Uri.LIST);
         this.payload = new Offsets();
     }
 
     public ListRequest(int start, int end) {
-        super(Discriminators.Uri.LIST)
-        this.payload = new Offsets(start, end)
+        super(Discriminators.Uri.LIST);
+        this.payload = new Offsets(start, end);
     }
 
     @JsonIgnore
     public int getStart() {
-        return this.payload.start
+        return this.payload.start;
     }
 
     @JsonIgnore
     public int getEnd() {
-        return this.payload.end
+        return this.payload.end;
     }
 
     public class Offsets {
-        int start = -1
-        int end = -1
+        protected int start = -1;
+        protected int end = -1;
 
         public Offsets() { }
         public Offsets(int start, int end) {
-            this.start = start
-            this.end = end
+            this.start = start;
+            this.end = end;
+        }
+
+        public int getStart()
+        {
+            return start;
+        }
+
+        public void setStart(int start)
+        {
+            this.start = start;
+        }
+
+        public int getEnd()
+        {
+            return end;
+        }
+
+        public void setEnd(int end)
+        {
+            this.end = end;
         }
     }
 }

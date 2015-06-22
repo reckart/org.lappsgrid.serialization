@@ -14,10 +14,10 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization.lif
+package org.lappsgrid.serialization.lif;
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Content object is a JSON "value object", that is, a JSON object with a {@literal @}value
@@ -36,10 +36,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Content {
-    @JsonProperty('@value')
-    String value
-    @JsonProperty('@language')
-    String language
+    @JsonProperty("@value")
+    protected String value;
+    @JsonProperty("@language")
+    protected String language;
 
     public Content() { }
 
@@ -47,4 +47,25 @@ public class Content {
 //        this.value = map['value']
 //        this.language = map['language']
 //    }
+
+
+	public String getValue()
+	{
+		return value;
+	}
+
+	public void setValue(String value)
+	{
+		this.value = value;
+	}
+
+	public String getLanguage()
+	{
+		return language;
+	}
+
+	public void setLanguage(String language)
+	{
+		this.language = language;
+	}
 }

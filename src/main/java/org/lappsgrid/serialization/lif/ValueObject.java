@@ -14,9 +14,11 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization.lif
+package org.lappsgrid.serialization.lif;
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Map;
 
 /**
  * A JSON-LD <a href="http://www.w3.org/TR/json-ld/#dfn-value-object">value object</a>.
@@ -27,11 +29,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * This class isn't currently used anywhere anymore.
  * @author Keith Suderman
  */
-class ValueObject {
-    @JsonProperty('@value')
-    String value
-    @JsonProperty('@type')
-    String type
+public class ValueObject {
+    @JsonProperty("@value")
+    protected String value;
+    @JsonProperty("@type")
+    protected String type;
 
     public ValueObject() { }
 
@@ -41,11 +43,31 @@ class ValueObject {
         this.value = value;
     }
 
-    public ValueObject(Map map) {
+    public ValueObject(Map<String,String> map) {
         if (map == null) {
-            return
+            return;
         }
-        this.type = map['type']
-        this.value = map['value']
+        this.type = map.get("type");
+        this.value = map.get("value");
     }
+
+	public String getValue()
+	{
+		return value;
+	}
+
+	public void setValue(String value)
+	{
+		this.value = value;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public void setType(String type)
+	{
+		this.type = type;
+	}
 }

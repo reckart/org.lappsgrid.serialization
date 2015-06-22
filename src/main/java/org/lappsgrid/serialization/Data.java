@@ -15,10 +15,13 @@
  *
  */
 
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization;
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import org.lappsgrid.serialization.aas.Token
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.lappsgrid.serialization.aas.Token;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The Data object is the container for all communications between services on
@@ -34,15 +37,15 @@ public class Data<T> {
      * A URI that specifies the content of the payload.  The URI must be one of
      * the URI defined at http://vocab.lappsgrid.org/discriminators.html
      */
-    String discriminator
+    protected String discriminator;
 
     /**
      * The payload to be transmitted.
      */
-    T payload
+    protected T payload;
 
     /** A map of parameters (if any) to be sent with the requst. */
-    Map parameters
+    Map<String,Object> parameters;
 
     public Data() {
 
@@ -55,26 +58,29 @@ public class Data<T> {
     }
 
     public Data(String discriminator) {
-        this.discriminator = discriminator
+        this.discriminator = discriminator;
     }
 
-    public Data(Map map) {
-        this.discriminator = map.discriminator
-        this.payload = map.payload
-        this.parameters = map.parameters
+    public Data(Map<String,Object> map) {
+        this.discriminator = map.get("discriminator").toString();
+        this.payload = (T) map.get("payload");
+        this.parameters = (Map<String,Object>) map.get("parameters");
     }
 
     @JsonIgnore
     public void setParameter(String name, Object value) {
-        if (!parameters) {
-            parameters = [:]
+        if (parameters == null) {
+            parameters = new HashMap<>();
         }
-        parameters[name] = value
+        parameters.put(name, value);
     }
 
     @JsonIgnore
     public Object getParameter(String name) {
-        return parameters?.get(name)
+        if (parameters == null) {
+            return null;
+        }
+        return parameters.get(name);
     }
 
     /** Returns a JSON representation of the Data object */

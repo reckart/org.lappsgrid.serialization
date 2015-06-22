@@ -15,30 +15,34 @@
  *
  */
 
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization.datasource;
 
-import static org.lappsgrid.discriminator.Discriminators.Uri
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.lappsgrid.discriminator.Discriminators;
+import org.lappsgrid.serialization.Data;
 
 /**
- * A Data object with the discriminator set to http://vocab.lappsgrid.org/ns/error
- *
- * The payload should contain the error message.
+ * The {@link org.lappsgrid.serialization.Data} object sent to request a single
+ * document from a Lappgrid Datasource.
  *
  * @author Keith Suderman
  */
-class Error extends Data<String> {
+public class GetRequest extends Data<String> {
 
-    public Error() {
-        super(Uri.ERROR, "Unknown error.")
+    public GetRequest() {
+        super(Discriminators.Uri.GET);
     }
 
-    public Error(Map map) {
-        this.discriminator = Uri.ERROR
-        this.payload = map['payload']
+    public GetRequest(String key) {
+        super(Discriminators.Uri.GET, key);
     }
 
-    public Error(String message) {
-        this.discriminator = Uri.ERROR
-        this.payload = message
+    @JsonIgnore
+    public String getKey() {
+        return payload;
+    }
+
+    public void setKey(String key) {
+        this.payload = key;
     }
 }

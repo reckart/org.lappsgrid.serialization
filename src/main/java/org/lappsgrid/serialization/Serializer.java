@@ -15,11 +15,11 @@
  *
  */
 
-package org.lappsgrid.serialization
+package org.lappsgrid.serialization;
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * Serializes objects to/from JSON.
@@ -32,17 +32,17 @@ import com.fasterxml.jackson.databind.SerializationFeature
  *
  * @author Keith Suderman
  */
-class Serializer {
+public class Serializer {
     private static ObjectMapper mapper;
     private static ObjectMapper prettyPrinter;
 
     static {
-        mapper = new ObjectMapper()
-        mapper.disable(SerializationFeature.INDENT_OUTPUT)
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        prettyPrinter = new ObjectMapper()
-        prettyPrinter.enable(SerializationFeature.INDENT_OUTPUT)
-        prettyPrinter.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.INDENT_OUTPUT);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        prettyPrinter = new ObjectMapper();
+        prettyPrinter.enable(SerializationFeature.INDENT_OUTPUT);
+        prettyPrinter.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
     private Serializer() {}
 
@@ -50,13 +50,13 @@ class Serializer {
      * Parses a JSON string and creates an instance of the specified class.
      */
     public static <T> T parse(String json, Class<T> theClass) {
-        T result = null
+        T result = null;
         try {
-            result = (T) mapper.readValue(json, theClass)
+            result = (T) mapper.readValue(json, theClass);
         }
         catch(Exception e)
         {
-            e.printStackTrace()
+            e.printStackTrace();
             // Ignored. We return null to indicate an error.
         }
         return result;
@@ -68,7 +68,7 @@ class Serializer {
     public static String toJson(Object object)
     {
         try {
-            return mapper.writeValueAsString(object)
+            return mapper.writeValueAsString(object);
         }
         catch (Exception e)
         {
@@ -80,7 +80,7 @@ class Serializer {
     public static String toPrettyJson(Object object)
     {
         try {
-            return prettyPrinter.writeValueAsString(object)
+            return prettyPrinter.writeValueAsString(object);
         }
         catch (Exception e)
         {

@@ -14,7 +14,9 @@
  * limitations under the License.
  *
  */
-package org.lappsgrid.serialization.lif
+package org.lappsgrid.serialization.lif;
+
+import java.util.*;
 
 /**
  * Holds information for the 'contains' sections of a {@link View}'s
@@ -30,28 +32,70 @@ class Contains {
     /**
      * The URL of the processor that produced the annotations.
      */
-    String url;
+    protected String url;
 
     /**
      * The name of the processors that produced the annotations.  For Java
      * processors this will be the fully qualified class name of the processor
      * including version information.
      */
-    String producer;
+    protected String producer;
 
     /**
      * The annotation type.
      */
-    String type;
+    protected String type;
 
     public Contains() { }
 
+    public Contains(String producer, String type)
+    {
+        this(producer, type, null);
+    }
+
+    public Contains(String producer, String type, String url)
+    {
+        this.producer = producer;
+        this.type = type;
+        this.url = url;
+    }
+
     public Contains(Map map) {
         if (map == null) {
-            return
+            return;
         }
-        this.url = map['url']
-        this.producer = map['producer']
-        this.type = map['type']
+        this.url = map.get("url").toString();
+        this.producer = map.get("producer").toString();
+        this.type = map.get("type").toString();
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
+
+    public String getProducer()
+    {
+        return producer;
+    }
+
+    public void setProducer(String producer)
+    {
+        this.producer = producer;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
     }
 }
