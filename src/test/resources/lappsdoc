@@ -1,0 +1,25 @@
+#!/usr/bin/env groovy
+
+def title = "The Lappsgrid API"
+if (args) {
+	title = args[0]
+}
+def ant = new AntBuilder()
+ant.taskdef(name: "groovydoc", classname: "org.codehaus.groovy.ant.Groovydoc")
+ant.groovydoc(
+    destdir      : "target/apidocs",
+    sourcepath   : "src/main/groovy",
+    //stylesheetfile:"src/test/resources/stylesheet.css",
+    packagenames : "**.*",
+    use          : "true",
+    windowtitle  : "$title",
+    doctitle     : "$title",
+    header       : "$title",
+    footer       : "Copyright &copy; 2015 The Language Application Grid",
+    private      : "false") {
+        link(packages:"java.,org.xml.,javax.,org.xml.",href:"http://docs.oracle.com/javase/8/docs/api/")
+        link(packages:"groovy.,org.codehaus.groovy.",  href:"http://docs.groovy-lang.org/latest/html/api/")
+        link(packages:"org.apache.tools.ant.",         href:"http://docs.groovy-lang.org/docs/ant/api/")
+        link(packages:"org.junit.,junit.framework.",   href:"http://junit.org/apidocs/")
+        link(packages:"org.codehaus.gmaven.",          href:"http://groovy.github.io/gmaven/apidocs/")
+}

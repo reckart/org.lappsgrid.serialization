@@ -113,9 +113,7 @@ public class View {
     Annotation newAnnotation(String id, String type, long start=-1, long end=-1) {
         Annotation a = newAnnotation()
         a.id = id
-        a.setType(type)
         a.setAtType(type)
-        a.setLabel(type)
         a.setStart(start)
         a.setEnd(end)
         return a
